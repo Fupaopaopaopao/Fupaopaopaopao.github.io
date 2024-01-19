@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>drag添加图片的实现—基于Vue和vuetify</title>
+    <link href="/2024/01/17/drag%E6%B7%BB%E5%8A%A0%E5%9B%BE%E7%89%87%E7%9A%84%E5%AE%9E%E7%8E%B0%E2%80%94%E5%9F%BA%E4%BA%8EVue%E5%92%8Cvuetify/"/>
+    <url>/2024/01/17/drag%E6%B7%BB%E5%8A%A0%E5%9B%BE%E7%89%87%E7%9A%84%E5%AE%9E%E7%8E%B0%E2%80%94%E5%9F%BA%E4%BA%8EVue%E5%92%8Cvuetify/</url>
+    
+    <content type="html"><![CDATA[<h1 id="在组件中"><a href="#在组件中" class="headerlink" title="在组件中"></a>在组件中</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">//自定义组件</span><br>&lt;script setup lang=<span class="hljs-string">&quot;ts&quot;</span>&gt;<br><span class="hljs-keyword">import</span> plusImg <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;~/assets/img/plus.png&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123;<br>  <span class="hljs-title class_">VImg</span>,<br>  <span class="hljs-title class_">VCard</span>,<br>  <span class="hljs-title class_">VCardTitle</span>,<br>  <span class="hljs-title class_">VCardSubtitle</span><br><br>&#125;<br>  <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vuetify/components&quot;</span>;<br><br><br><span class="hljs-keyword">import</span> &#123;ref&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;<br><br><br><span class="hljs-keyword">const</span> drag = <span class="hljs-title function_">ref</span>(<span class="hljs-literal">null</span>);<br><span class="hljs-keyword">const</span> active = <span class="hljs-title function_">ref</span>(<span class="hljs-literal">false</span>);<br><span class="hljs-keyword">const</span> emit = <span class="hljs-title function_">defineEmits</span>([<span class="hljs-string">&#x27;file&#x27;</span>]);<br><br><span class="hljs-keyword">const</span> <span class="hljs-title function_">handleDrop</span> = (<span class="hljs-params">e</span>) =&gt; &#123;<br>  e.<span class="hljs-title function_">preventDefault</span>();<br>  active.<span class="hljs-property">value</span> = <span class="hljs-literal">false</span>;<br>  <span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;file&#x27;</span>, <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(e.<span class="hljs-property">dataTransfer</span>.<span class="hljs-property">files</span>));<br>  <span class="hljs-comment">//使用e.dataTransfer.files获得拖拽的文件</span><br><br>&#125;;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">dragEnter</span>(<span class="hljs-params">e</span>) &#123;<br>  e.<span class="hljs-title function_">preventDefault</span>() <span class="hljs-comment">//禁止基本事件</span><br>  active.<span class="hljs-property">value</span> = <span class="hljs-literal">true</span><br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">dragLeave</span>(<span class="hljs-params">e</span>) &#123;<br>  e.<span class="hljs-title function_">preventDefault</span>()<br>  active.<span class="hljs-property">value</span> = <span class="hljs-literal">false</span><br>&#125;<br><br><br>&lt;/script&gt;<br><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">v-card</span></span></span><br><span class="hljs-tag"><span class="language-xml">      <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;300&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">      <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;300&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">      <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;flat&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">      <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;[&#x27;drag&#x27;, &#123; &#x27;drag-active&#x27;: active &#125;]&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">      <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;drag&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">      @<span class="hljs-attr">drop</span>=<span class="hljs-string">&quot;handleDrop&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">      @<span class="hljs-attr">dragover.prevent</span></span></span><br><span class="hljs-tag"><span class="language-xml">      @<span class="hljs-attr">dragenter</span>=<span class="hljs-string">&quot;dragEnter&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">      @<span class="hljs-attr">dragleave</span>=<span class="hljs-string">&quot;dragLeave&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml"></span></span><br><span class="hljs-tag"><span class="language-xml">  &gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;image-container&quot;</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">v-img</span></span></span><br><span class="hljs-tag"><span class="language-xml">          <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;plusImg&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">          <span class="hljs-attr">:lazy-src</span>=<span class="hljs-string">&quot;plusImg&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">          <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;150px&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">      &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">v-img</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">v-card-title</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-center&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: grey;&quot;</span>&gt;</span></span><br><span class="language-xml">      Drag Plan Image Here</span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">v-card-title</span>&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">v-card-subtitle</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-center&quot;</span>&gt;</span></span><br><span class="language-xml">      File type: .png, .jpg</span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">v-card-subtitle</span>&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">v-card</span>&gt;</span></span><br><span class="language-xml"></span><br><span class="language-xml"></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span><br><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;scss&quot;</span>&gt;</span><span class="language-css"></span></span><br><span class="language-css"><span class="language-xml"><span class="hljs-selector-class">.image-container</span> &#123;</span></span><br><span class="language-css"><span class="language-xml">  <span class="hljs-attribute">height</span>: <span class="hljs-number">200px</span>;</span></span><br><span class="language-css"><span class="language-xml">  <span class="hljs-attribute">display</span>: flex;</span></span><br><span class="language-css"><span class="language-xml">  <span class="hljs-attribute">align-items</span>: center;</span></span><br><span class="language-css"><span class="language-xml">  <span class="hljs-attribute">justify-content</span>: center;</span></span><br><span class="language-css"><span class="language-xml">&#125;</span></span><br><span class="language-css"><span class="language-xml"></span></span><br><span class="language-css"><span class="language-xml"><span class="hljs-selector-class">.drag</span> &#123;</span></span><br><span class="language-css"><span class="language-xml">  <span class="hljs-attribute">border</span>: <span class="hljs-number">2px</span> dashed <span class="hljs-number">#DEDEDE</span>;</span></span><br><span class="language-css"><span class="language-xml">  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">4px</span>;</span></span><br><span class="language-css"><span class="language-xml"></span></span><br><span class="language-css"><span class="language-xml"></span></span><br><span class="language-css"><span class="language-xml"></span></span><br><span class="language-css"><span class="language-xml">  &amp;-active &#123;</span></span><br><span class="language-css"><span class="language-xml">    <span class="hljs-attribute">border</span>: <span class="hljs-number">2px</span> dashed <span class="hljs-number">#a1b8d6</span>;</span></span><br><span class="language-css"><span class="language-xml"></span></span><br><span class="language-css"><span class="language-xml">  &#125;</span></span><br><span class="language-css"><span class="language-xml"></span></span><br><span class="language-css"><span class="language-xml">  * &#123;</span></span><br><span class="language-css"><span class="language-xml">    <span class="hljs-attribute">pointer-events</span>: none;</span></span><br><span class="language-css"><span class="language-xml">  &#125;</span></span><br><span class="language-css"><span class="language-xml">&#125;</span></span><br><span class="language-css"><span class="language-xml"></span></span><br><span class="language-css"><span class="language-xml"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></span><br></code></pre></td></tr></table></figure><h1 id="在父组件中"><a href="#在父组件中" class="headerlink" title="在父组件中"></a>在父组件中</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><br>&lt;project-drag-upload-file @file=<span class="hljs-string">&quot;handleFiles&quot;</span> <span class="hljs-keyword">class</span>=<span class="hljs-string">&quot;ma-2&quot;</span>/&gt;<br><br><span class="hljs-keyword">const</span> <span class="hljs-title function_">handleFiles</span> = (<span class="hljs-params">files</span>) =&gt; &#123;<br>  <br>  <span class="hljs-keyword">if</span>(files &amp;&amp; files.<span class="hljs-property">length</span> &gt;<span class="hljs-number">0</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;File recieved.&quot;</span>)<br>    <span class="hljs-keyword">const</span> planImage = files[<span class="hljs-number">0</span>]<br>      <span class="hljs-comment">//define files type</span><br><br>  &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Front-end</category>
+      
+      <category>Vue</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>vue</tag>
+      
+      <tag>frontend</tag>
+      
+      <tag>drag and drop import file</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>css style</title>
+    <link href="/2024/01/17/css-style/"/>
+    <url>/2024/01/17/css-style/</url>
+    
+    <content type="html"><![CDATA[<h1 id="流式布局"><a href="#流式布局" class="headerlink" title="流式布局"></a>流式布局</h1><p>在我们需要根据页面大小更改布局或者是显示一些可以iteration的组件时候可能需要流式布局。</p><h2 id="flex-flow属性"><a href="#flex-flow属性" class="headerlink" title="flex-flow属性"></a>flex-flow属性</h2><p>flex-row： 控制元素横向排列<br>flex-start：子元素在主轴方向的开始位置往结束方向填充，为justify-content属性的默认值。<br>flex-wrap：元素超过页面最大宽度的时候自动换行</p><p>在vuetify组件中可以使用class来代替css style</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;v-container <span class="hljs-keyword">class</span>=<span class="hljs-string">&quot;ma-3 d-flex flex-row justify-start flex-wrap&quot;</span>&gt;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Front-end</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>frontend</tag>
+      
+      <tag>css</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>handlebars</title>
+    <link href="/2024/01/17/handlebars/"/>
+    <url>/2024/01/17/handlebars/</url>
+    
+    <content type="html"><![CDATA[<h1 id="How-to-use-handlebars-Templating-the-message"><a href="#How-to-use-handlebars-Templating-the-message" class="headerlink" title="How to use handlebars? (Templating the message)"></a>How to use handlebars? (Templating the message)</h1><p><a href="https://handlebarsjs.com/guide/#what-is-handlebars">https://handlebarsjs.com/guide/#what-is-handlebars</a></p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> info =  &#123;<br>        <span class="hljs-attr">vibrationSensorMetrics</span>: &#123;<br>            <span class="hljs-attr">empty</span>: <span class="hljs-literal">false</span>,<br>            <span class="hljs-attr">stage</span>: &#123;<br>                <span class="hljs-attr">max</span>: <span class="hljs-number">2</span><br>            &#125;<br>        &#125;<br><span class="hljs-comment">//上面应该是个object，不要变成json</span><br><span class="hljs-keyword">let</span> message = <span class="hljs-string">&quot;&lt;b&gt;Motor&lt;/b&gt; is in bad condition due to vibration at stage &#123;&#123;vibrationSensorMetrics.stage.max&#125;&#125;&quot;</span><br><span class="hljs-keyword">const</span> template = <span class="hljs-title class_">Handlebars</span>.<span class="hljs-title function_">compile</span>(message)<br><span class="hljs-keyword">const</span> result = <span class="hljs-title function_">template</span>(info)<br></code></pre></td></tr></table></figure><blockquote><p>Result: <b>Motor</b> is in bad condition due to vibration at stage 2</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>Front-end</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>handlebars</tag>
+      
+      <tag>template message</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Vue</title>
+    <link href="/2024/01/17/Vue/"/>
+    <url>/2024/01/17/Vue/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> &#123;useRouter&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vue-router&quot;</span>;<br><span class="hljs-keyword">const</span> router = <span class="hljs-title function_">useRouter</span>()<br><span class="hljs-keyword">const</span> &#123;measurableId&#125; = router.<span class="hljs-property">currentRoute</span>.<span class="hljs-property">value</span>.<span class="hljs-property">params</span><br><span class="hljs-comment">//在nuxt中，只能获得本文件夹名字的参数</span><br></code></pre></td></tr></table></figure><h1 id="组件间传值"><a href="#组件间传值" class="headerlink" title="组件间传值"></a>组件间传值</h1><p><a href="https://tallpad.com/series/vuejs-misc/lessons/component-communication-in-vue3-sibling-parent-and-child-components">https://tallpad.com/series/vuejs-misc/lessons/component-communication-in-vue3-sibling-parent-and-child-components</a></p><h1 id="Route"><a href="#Route" class="headerlink" title="Route"></a>Route</h1><p>使用Route可以直接获得目前页面所在的路径</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> route = <span class="hljs-title function_">useRoute</span>();<br><span class="hljs-keyword">const</span> currentPath = route.<span class="hljs-property">path</span>;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Front-end</category>
+      
+      <category>Vue</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>vue</tag>
+      
+      <tag>frontend</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>vuetify</title>
+    <link href="/2024/01/17/vuetify/"/>
+    <url>/2024/01/17/vuetify/</url>
+    
+    <content type="html"><![CDATA[<h1 id="v-img自带的加载插槽"><a href="#v-img自带的加载插槽" class="headerlink" title="v-img自带的加载插槽"></a>v-img自带的加载插槽</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript">    &lt;template v-<span class="hljs-attr">slot</span>:placeholder&gt;<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">v-row</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;fill-height ma-0&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">justify</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">v-progress-circular</span></span></span><br><span class="hljs-tag"><span class="language-xml">        <span class="hljs-attr">indeterminate</span></span></span><br><span class="hljs-tag"><span class="language-xml">        <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;grey-lighten-5&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">v-progress-circular</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">v-row</span>&gt;</span></span><br>&lt;/template&gt;<br></code></pre></td></tr></table></figure><p>可以对图片添加加载的动画</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;v-img<br>      :src=<span class="hljs-string">&quot;plan.url&quot;</span> :lazy-src=<span class="hljs-string">&quot;plan.url&quot;</span><br></code></pre></td></tr></table></figure><p>其中的lazy-src可以在未完全加载资源的时候显示模糊的图片</p><h1 id="How-to-use-v-slot-to-costom-the-components-eg-insert-a-list-into-datatable"><a href="#How-to-use-v-slot-to-costom-the-components-eg-insert-a-list-into-datatable" class="headerlink" title="How to use v-slot to costom the components (eg.insert a list into datatable)"></a>How to use v-slot to costom the components (eg.insert a list into datatable)</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;v-data-table<br>            :headers=<span class="hljs-string">&quot;alertTableHeaders&quot;</span><br>            :items=<span class="hljs-string">&quot;alertFormatted&quot;</span>&gt;<br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">v-slot:item.info</span>=<span class="hljs-string">&quot;&#123; item &#125;&quot;</span>&gt;</span></span><br><span class="language-xml">              <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-html</span>=<span class="hljs-string">&quot;item.info&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span><br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">v-slot:item.sensors</span>=<span class="hljs-string">&quot;&#123; item &#125;&quot;</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">v-card</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;flat&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;min-width: 200px;&quot;</span>&gt;</span></span><br><span class="language-xml">   </span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">v-list</span></span></span><br><span class="hljs-tag"><span class="language-xml">    <span class="hljs-attr">:items</span>=<span class="hljs-string">&quot;item.sensors&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">    <span class="hljs-attr">item-title</span>=<span class="hljs-string">&quot;name&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">    <span class="hljs-attr">item-value</span>=<span class="hljs-string">&quot;id&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">    @<span class="hljs-attr">click:select</span>=<span class="hljs-string">&quot;onSensorSelect&quot;</span></span></span><br><span class="hljs-tag"><span class="language-xml">  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">v-list</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">v-card</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span><br>            &lt;/v-data-table&gt;<br></code></pre></td></tr></table></figure><p>v-slot: default(this is the name of v-slot)&#x3D;”{item}”(the item is the ref of the outer layer value)</p><h1 id="Vuetify-的普通布局"><a href="#Vuetify-的普通布局" class="headerlink" title="Vuetify 的普通布局"></a>Vuetify 的普通布局</h1><blockquote><p>vuetify 使用rows cols提供静态布局,一个col在vuetify中被分为12格</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;v-row&gt;<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">v-col</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;9&quot;</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">v-col</span>&gt;</span></span><br><br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">v-col</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">v-col</span>&gt;</span></span><br>&lt;/v-row&gt;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Front-end</category>
+      
+      <category>Vue</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>vuetify</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>一些实现过程中遇到的小问题</title>
+    <link href="/2024/01/17/%E4%B8%80%E4%BA%9B%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98/"/>
+    <url>/2024/01/17/%E4%B8%80%E4%BA%9B%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h1 id="ERROR-undefined-with-pinia-store-arguments"><a href="#ERROR-undefined-with-pinia-store-arguments" class="headerlink" title="ERROR: undefined with pinia store arguments"></a>ERROR: undefined with pinia store arguments</h1><blockquote><p>Resolve: Make sure to use <code>cons&#123;argument&#125; = storeToRefs(Store)</code>to get the reactive value.</p></blockquote><h1 id="ERROR-Failed-to-resolve-component-v-list-item-title-or-any-other-vuetify-component"><a href="#ERROR-Failed-to-resolve-component-v-list-item-title-or-any-other-vuetify-component" class="headerlink" title="ERROR: Failed to resolve component: v-list-item-title(or any other vuetify component)"></a>ERROR: Failed to resolve component: v-list-item-title(or any other vuetify component)</h1><blockquote><p>Resolve: Make sure you import that component</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> &#123;<br>  <span class="hljs-title class_">VCard</span>,<br>  <span class="hljs-title class_">VList</span><br>&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vuetify/components&quot;</span>;<br></code></pre></td></tr></table></figure><h1 id="当父组件设置监听事件被子组件挡住时"><a href="#当父组件设置监听事件被子组件挡住时" class="headerlink" title="当父组件设置监听事件被子组件挡住时"></a>当父组件设置监听事件被子组件挡住时</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript">* &#123;<br>  pointer-<span class="hljs-attr">events</span>: none;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Front-end</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>vue</tag>
+      
+      <tag>vuetify</tag>
+      
+      <tag>typescript</tag>
+      
+      <tag>nuxt</tag>
+      
+      <tag>error</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Pinia</title>
+    <link href="/2024/01/17/Pinia/"/>
+    <url>/2024/01/17/Pinia/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Define-A-store-Vue-Composition-API"><a href="#Define-A-store-Vue-Composition-API" class="headerlink" title="Define A store (Vue Composition API)"></a>Define A store (Vue Composition API)</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> &#123;defineStore&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;pinia&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useExampleStore = <span class="hljs-title function_">defineStore</span>(<span class="hljs-string">&#x27;Example&#x27;</span>,&#123;<br><br><span class="hljs-keyword">const</span> e1 = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)<br><span class="hljs-keyword">const</span> e2 = <span class="hljs-title function_">computed</span>(<span class="hljs-function">()=&gt;</span>&#123;<br>...<br>&#125;<br>)<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">e3</span>(<span class="hljs-params"></span>)&#123;<br>   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br>&#125;<br><br><span class="hljs-keyword">return</span>&#123;e1,e2,e3&#125;<br>&#125;)<br></code></pre></td></tr></table></figure><h4 id="computed-parameter-you-can-use-getters-instead-of-computed"><a href="#computed-parameter-you-can-use-getters-instead-of-computed" class="headerlink" title="computed parameter (you can use getters instead of computed)"></a>computed parameter (you can use getters instead of computed)</h4><blockquote><p>当一个store（相当于一个类）的属性值是需要通过别的属性值计算出来时，可以使用computed来简单的表达</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> &#123;computed&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br> <span class="hljs-keyword">const</span> isAuthenticated = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-keyword">return</span> accessToken.<span class="hljs-property">value</span> !== <span class="hljs-literal">null</span><br>    &#125;)<br></code></pre></td></tr></table></figure><h4 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h4><p>ref &#x3D;&gt; assign&#x2F;call value (reactive assignment in vue)</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> &#123;ref&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><span class="hljs-keyword">const</span> num = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)<br>num.<span class="hljs-property">value</span> = <span class="hljs-number">20</span> <span class="hljs-comment">// assignment</span><br><span class="hljs-keyword">const</span> a = num.<span class="hljs-property">value</span> <span class="hljs-comment">// call</span><br></code></pre></td></tr></table></figure><h2 id="Using-the-store"><a href="#Using-the-store" class="headerlink" title="Using the store"></a>Using the store</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;script setup&gt;<br><span class="hljs-keyword">import</span> &#123; useExampleStore &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;~/stores/example.ts&#x27;</span><br><br><span class="hljs-keyword">const</span> store = <span class="hljs-title function_">useExampleStore</span>()<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure><h2 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h2><p>use example.types.ts to create interface with data</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">interface <span class="hljs-title class_">CorporateRole</span> &#123;<br>    <span class="hljs-attr">name</span>: string<br>    <span class="hljs-attr">corporateId</span>: string,<br>    <span class="hljs-attr">role</span>: string<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="storeToRefs"><a href="#storeToRefs" class="headerlink" title="storeToRefs"></a>storeToRefs</h2><p>当你在script中使用store中的值的时候需要使用这个变量将其变为refs，且它保持reactive</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;script setup&gt;<br><span class="hljs-keyword">import</span> &#123; useCounterStore &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/stores/counter&#x27;</span><br><span class="hljs-keyword">import</span> &#123; storeToRefs &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;pinia&#x27;</span><br><br><span class="hljs-keyword">const</span> store = <span class="hljs-title function_">useCounterStore</span>()<br><span class="hljs-keyword">const</span> &#123; name, doubleCount &#125; = <span class="hljs-title function_">storeToRefs</span>(store) <br><span class="hljs-keyword">const</span> &#123; increment &#125; = store<br>&lt;/script&gt;<br><br></code></pre></td></tr></table></figure><h2 id="Reset"><a href="#Reset" class="headerlink" title="Reset"></a>Reset</h2><p>Define when create</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useCounterStore = <span class="hljs-title function_">defineStore</span>(<span class="hljs-string">&#x27;counter&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> count = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)<br><br>  <span class="hljs-keyword">function</span> <span class="hljs-title function_">$reset</span>(<span class="hljs-params"></span>) &#123;<br>    count.<span class="hljs-property">value</span> = <span class="hljs-number">0</span><br>  &#125;<br><br>  <span class="hljs-keyword">return</span> &#123; count, $reset &#125;<br>&#125;)<br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Front-end</category>
+      
+      <category>Vue</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>vue</tag>
+      
+      <tag>pinia</tag>
+      
+      <tag>forntend</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux Command and CMD</title>
+    <link href="/2024/01/17/Linux-Command/"/>
+    <url>/2024/01/17/Linux-Command/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Linux-command"><a href="#Linux-command" class="headerlink" title="Linux command"></a>Linux command</h1><blockquote><p>Usually these command are not easy to forget</p></blockquote><ul><li><code>cd ..</code></li><li><code>cp [filename] [source]</code></li><li><code>tar -zxvf filename.tar.gz</code> unzip the file</li></ul><h1 id="Windows-CMD"><a href="#Windows-CMD" class="headerlink" title="Windows CMD"></a>Windows CMD</h1><ul><li><code>D:</code> (use this command to access folder in D:&#x2F;)</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+      <tag>Windows</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
