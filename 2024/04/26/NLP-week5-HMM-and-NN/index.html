@@ -16,23 +16,30 @@
   <meta name="author" content="Fuchsia">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Intro: 响应式编程是Vue的核心概念，理解响应式才能更好的开发vue产品  vue 3.0 setup首先我们要知道Vue 3.0提供了setup函数，这使得我们不需要传统的data(){return{}}来声明声明周期 (包括 watch computed等) 在Vue 3中，Proxy被用于劫持组件实例，以实现响应式数据的跟踪和更新。当你在Vue组件中声明一个响应式的数据属性时，Vue">
+    <meta name="description" content="HMM: hidden markov model词性只跟上一个词性有关，词只和本位置的词性有关。Hidden是因为词性是不知道的。能观察到的是词，通过词反推获得词性建立联系。 也就是说我们想知道两个概率：     这个位置是这个词性的概率 Transition prob (A): P(wi|ti) 这个词性是这个词的概率 Emission prob (O): P(ti-1|ti)  因此，Outp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Reactive in Vue3.0">
-<meta property="og:url" content="http://example.com/2024/01/23/reactive-in-Vue3-0/index.html">
+<meta property="og:title" content="NLP week5: HMM">
+<meta property="og:url" content="http://example.com/2024/04/26/NLP-week5-HMM-and-NN/index.html">
 <meta property="og:site_name" content="Fuchsia&#39;s BoLg">
-<meta property="og:description" content="Intro: 响应式编程是Vue的核心概念，理解响应式才能更好的开发vue产品  vue 3.0 setup首先我们要知道Vue 3.0提供了setup函数，这使得我们不需要传统的data(){return{}}来声明声明周期 (包括 watch computed等) 在Vue 3中，Proxy被用于劫持组件实例，以实现响应式数据的跟踪和更新。当你在Vue组件中声明一个响应式的数据属性时，Vue">
+<meta property="og:description" content="HMM: hidden markov model词性只跟上一个词性有关，词只和本位置的词性有关。Hidden是因为词性是不知道的。能观察到的是词，通过词反推获得词性建立联系。 也就是说我们想知道两个概率：     这个位置是这个词性的概率 Transition prob (A): P(wi|ti) 这个词性是这个词的概率 Emission prob (O): P(ti-1|ti)  因此，Outp">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-01-23T12:09:43.000Z">
-<meta property="article:modified_time" content="2024-01-23T13:39:28.088Z">
+<meta property="og:image" content="http://example.com/hmm.png">
+<meta property="og:image" content="http://example.com/maxesti-5.png">
+<meta property="og:image" content="http://example.com/tahn.png">
+<meta property="og:image" content="http://example.com/nn.png">
+<meta property="og:image" content="http://example.com/n.png">
+<meta property="og:image" content="http://example.com/nn-struc.png">
+<meta property="article:published_time" content="2024-04-26T08:39:32.000Z">
+<meta property="article:modified_time" content="2024-05-06T19:14:16.906Z">
 <meta property="article:author" content="Fuchsia">
-<meta property="article:tag" content="vue">
-<meta property="article:tag" content="front-end">
+<meta property="article:tag" content="nlp">
+<meta property="article:tag" content="natural language processing">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/hmm.png">
   
   
   
-  <title>Reactive in Vue3.0 - Fuchsia&#39;s BoLg</title>
+  <title>NLP week5: HMM - Fuchsia&#39;s BoLg</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +205,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Reactive in Vue3.0"></span>
+            <span id="subtitle" data-typed-text="NLP week5: HMM"></span>
           
         </div>
 
@@ -209,8 +216,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-23 23:09" pubdate>
-          January 23, 2024 pm
+        <time datetime="2024-04-26 18:39" pubdate>
+          April 26, 2024 pm
         </time>
       </span>
     
@@ -221,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          376 words
+          1.7k words
         
       </span>
     
@@ -232,7 +239,7 @@
         
         
         
-          4 mins
+          15 mins
         
       </span>
     
@@ -269,19 +276,136 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Reactive in Vue3.0</h1>
+            <h1 id="seo-header">NLP week5: HMM</h1>
             
             
               <div class="markdown-body">
                 
-                <blockquote>
-<p>Intro: 响应式编程是Vue的核心概念，理解响应式才能更好的开发vue产品</p>
+                <h1 id="HMM-hidden-markov-model"><a href="#HMM-hidden-markov-model" class="headerlink" title="HMM: hidden markov model"></a>HMM: hidden markov model</h1><p><img src="/hmm.png" srcset="/img/loading.gif" lazyload alt="hmm"><br>词性只跟上一个词性有关，词只和本位置的词性有关。Hidden是因为词性是不知道的。能观察到的是词，通过词反推获得词性建立联系。</p>
+<p>也就是说我们想知道两个概率：   </p>
+<ol>
+<li>这个位置是这个词性的概率 Transition prob (A): P(wi|ti)</li>
+<li>这个词性是这个词的概率 Emission prob (O): P(ti-1|ti)</li>
+</ol>
+<p>因此，<br>Output independence:<br><strong>假设： 每个word只依赖于tag, word之间是绝对独立的</strong><br>$$<br>P(\vec{w} \mid \vec{t})&#x3D;\prod_{i&#x3D;1}^n P\left(w_i \mid t_i\right)<br>$$</p>
+<p>Markov assimption:<br>在HMM中，当前的tag只跟前一个有关 （类似于N-gram）<br>$$<br>P(\vec{t})&#x3D;\prod_{i&#x3D;1}^n P\left(t_i \mid t_{i-1}\right)<br>$$</p>
+<p>Maximum likelihood estimation:<br><img src="/maxesti-5.png" srcset="/img/loading.gif" lazyload alt="hmm"><br>$$<br>\begin{aligned}<br>\hat{t} &amp; &#x3D;\operatorname{argmax}<em>t P(\vec{w} \mid \vec{t}) P(\vec{t}) \<br>&amp; &#x3D;\operatorname{argmax}<em>t \prod</em>{i&#x3D;1}^n P\left(w_i \mid t_i\right) P\left(t_1 \mid t</em>{i-1}\right)<br>\end{aligned}<br>$$<br>Core idea : 取所有tag sequences组合中概率最高的</p>
+<h2 id="Viterbi-算法"><a href="#Viterbi-算法" class="headerlink" title="Viterbi 算法"></a>Viterbi 算法</h2><p>计算过程：一般题目里面会给两个表格，分别为Table A and Table O, 这两个表记录着计算需要的两个概率。这时我们需要计算第三个表并得出<strong>所有sequence中概率最高的</strong>。</p>
+<h3 id="计算tag-sequence的概率"><a href="#计算tag-sequence的概率" class="headerlink" title="计算tag sequence的概率"></a>计算tag sequence的概率</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>Janet</th>
+<th>will</th>
+<th>back</th>
+<th>the</th>
+<th>bill</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NNP</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MD</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>VB</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>JJ</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NN</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RB</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RB</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>表格中的第一列，都为最基础的，例如第一个单元格中， P(Janet|nnp) x P(NNP|s) &#x3D; Score<br>而第一行的第二个单元格中则需要计算前一个位置的每个词性的score，并取最大值<br>假设，我们现在计算前一个词性为NNP，<br><strong>will,NNP score &#x3D; max((will|nnp) x P(NNP|tJanet) x score(tJanet,Janet))</strong><br><strong>根据最后一列最大的score往前回溯</strong>  </p>
+<p>时间复杂度 $$O\left(T^2 N\right)$$<br>T: size of the tagset, rows<br>N: length of the sequence, columns<br>遍历整个表格是T*N，然后后面为了取最大值每个格子中都是N，所以是以上式子</p>
+<h1 id="Neural-Network"><a href="#Neural-Network" class="headerlink" title="Neural Network"></a>Neural Network</h1><h2 id="Activation-Function"><a href="#Activation-Function" class="headerlink" title="Activation Function"></a>Activation Function</h2><p>主要是为了把linear function来Capture X,Y的关系，比如将一个linear function输出为一个RANGE(-1,1)的向量，同时有很多不同种类的激活函数。<br>Sigmoid中包括logistic function (range(0,1)), tanh(range(-1,1))<br>RuLe:RuLe的计算更简洁</p>
+<h3 id="tanh"><a href="#tanh" class="headerlink" title="tanh"></a>tanh</h3><p>$$<br>\underset{}{h&#x3D;\tanh }\left(\sum_j w_j x_j+b\right)<br>$$<br><img src="/tahn.png" srcset="/img/loading.gif" lazyload alt="tahn">   </p>
+<h2 id="Neural-Network的基本结构"><a href="#Neural-Network的基本结构" class="headerlink" title="Neural Network的基本结构"></a>Neural Network的基本结构</h2><p>很早之前就有NN，刚开始算力消耗太大并，overfitting严重 ，并行计算促进NN的发展。</p>
+<blockquote>
+<p>Note: 超过两层就可以算deep learning  </p>
 </blockquote>
-<h1 id="vue-3-0-setup"><a href="#vue-3-0-setup" class="headerlink" title="vue 3.0 setup"></a>vue 3.0 setup</h1><p>首先我们要知道Vue 3.0提供了setup函数，这使得我们不需要传统的data(){return{}}来声明声明周期 (包括 watch computed等)</p>
-<p>在Vue 3中，Proxy被用于劫持组件实例，以实现响应式数据的跟踪和更新。当你在Vue组件中声明一个响应式的数据属性时，Vue内部会使用Proxy来追踪该属性的变化。这样，当属性的值发生变化时，Vue能够自动检测到这个变化，并更新相关的视图</p>
-<h1 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h1><p>JavaScript的Proxy是一种元编程特性，它允许我们拦截并修改对象的基本操作。通过在对象和其目标之间插入一个代理层，<strong>Proxy可以截获对目标对象的各种操作</strong>，包括属性的读取、写入、删除以及函数的调用等。<br>在vue3中获取的数据都会被proxy封装，包括四种reactive，readonly，shallowReactive，shallowReadonly 其中处理逻辑稍有不同但主要分为只读和非只读。这意味着vue可以通过proxy来监听所有的对象变化。<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/461159820">https://zhuanlan.zhihu.com/p/461159820</a></p>
-<h1 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h1><p>ref必须被包装在 watcheffect中才能响应（或者computed），另外在模板中不需要使用value，因为会直接解构 但注意必须在根目录</p>
-<h1 id="conclusion"><a href="#conclusion" class="headerlink" title="conclusion"></a>conclusion</h1><p>computed, watcheffect, ref是vue中响应式使用的基石，在构建页面时必须设计好这些参数。</p>
+<p><img src="/nn.png" srcset="/img/loading.gif" lazyload alt="nn"><br>中间的hidden layer越多捕捉到的关系越复杂，<br>每一层中的node，分别capture一部分的non-linear relationship。<strong>Fully connected</strong> 就是上一层和下一层的每一个节点都连接。<br><img src="/n.png" srcset="/img/loading.gif" lazyload alt="n">   </p>
+<h3 id="Output-layer"><a href="#Output-layer" class="headerlink" title="Output layer"></a>Output layer</h3><p>输出一共有两种，分别是binary classification和multinomial classification(multi-class classification)</p>
+<ul>
+<li><strong>Binary classification</strong><br>输出层只有一个节点，使用tahn将上一层的函数输入为一个RANGE(-1,1)的值，if -1&lt;y&lt;0, neg; if1&gt;y&gt;&#x3D;0, pos.<blockquote>
+<p>Note: 我们知道如果想把一个(1,5)的矩阵转化成(1,1)的矩阵，那么w也就是系数矩阵必须形状为(5,1)</p>
+</blockquote>
+</li>
+<li><strong>Multinomial classification</strong><br>Y &#x3D; [Y1, Y2, Y3]<br>这个向量指的是：distribution over all possible classes.<br>我们使用SOFTMAX作为最后一层到输出层的激活函数，将一个和不为1的向量转换成概率分布。然后我们取概率最大的分类为结果。</li>
+</ul>
+<h3 id="Loss-function-Gradient-descent"><a href="#Loss-function-Gradient-descent" class="headerlink" title="Loss function &amp; Gradient descent"></a>Loss function &amp; Gradient descent</h3><p>详见appendix</p>
+<h3 id="Overfitting"><a href="#Overfitting" class="headerlink" title="Overfitting"></a>Overfitting</h3><p>parameters多了会导致过拟合，这是因为训练集太细且包括noise，因此我们必须通过Regularization来消除overfitting的影响，并且增加一个penalty component来避免某个系数过大,它的作用是推动模型的参数尽量趋向于零，从而促使模型产生稀疏解，有助于特征选择和模型简化。</p>
+<p>L1-norm: sum of absolute of all parameters<br>L2-norm: sum of squares of all parameters</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>L1-norm倾向于产生稀疏解，因为它的优化过程中，一些参数会变为零，因此在稀疏模型和特征选择中应用较多。</li>
+<li>L2-norm倾向于产生较小的稠密解，因为它对参数的惩罚更加均衡，避免了一些参数过大的情况，常用于优化算法中的正则化。</li>
+</ul>
+<p><strong>鲁棒性：</strong></p>
+<ul>
+<li>L1-norm对于异常值（outliers）有较好的鲁棒性，因为它不受离群值的影响。</li>
+<li>L2-norm对于异常值的鲁棒性较差，因为它会受到异常值的平方的影响</li>
+</ul>
+<p>$$<br>\operatorname{Loss}&#x3D;-\log (L)+\lambda \Sigma\left|w_r\right|<br>$$<br>lambda是系数,后面一项是penalty compont（前一项就是普通的LOSS）</p>
+<h4 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h4><p>随机扔掉一些节点 增加noise<br>dropout rate &#x3D; 0.1 随机干掉0.2的神经元</p>
+<h2 id="NN的topic-classification的过程"><a href="#NN的topic-classification的过程" class="headerlink" title="NN的topic classification的过程"></a>NN的topic classification的过程</h2><p>任务：输入一个文档，输出一个topic<br><img src="/nn-struc.png" srcset="/img/loading.gif" lazyload alt="nn-s"><br>Input：bag-of-words这个就是每个词的频率<br>Output: y-pred &#x3D; [0.2, 0.1, 0.7] eg. 比如说分别是 eco, pol, spo  </p>
+<h3 id="训练模型："><a href="#训练模型：" class="headerlink" title="训练模型："></a>训练模型：</h3><ul>
+<li>将数据输入模型，通过前向传播计算模型输出，并计算损失值。</li>
+<li>通过反向传播计算梯度，并根据选择的优化器更新模型参数。</li>
+<li>反复迭代这个过程，直到损失值收敛或达到设定的停止条件</li>
+</ul>
+<h2 id="Embeddings"><a href="#Embeddings" class="headerlink" title="Embeddings"></a>Embeddings</h2><p>任务：通过n-gram，比如输入前两个单词，输出后一个单词。这时我们需要用单词的embeddings代替bow，那么我们如何获得embeddings。<br>有趣的是，我们的topic classification的w1就是可以代表单词的向量。当我们需要输入前两个单词时就是把代表这两个单词的向量concatenate一下，比如word1 &#x3D; [0,1], word2 &#x3D; [0,2], 那么输入的向量就是[0,1,0,2]，<strong>值得注意的是，这种方法保留了文字顺序的信息。</strong></p>
+<p>输出：所有单词在这里出现的概率</p>
+<h2 id="对比NN-based-and-count-based-n-gram"><a href="#对比NN-based-and-count-based-n-gram" class="headerlink" title="对比NN-based and count-based n-gram"></a>对比NN-based and count-based n-gram</h2><p>后者不需要大量算力，可以手算，且在大型的datasets上会over sparse（过于稀疏，因为很多count是0）<br>NN则可以capture到单词的grammar or semantic等信息 （film vs movie）</p>
+<h1 id="Appendix"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix</h1><h2 id="Loss-function"><a href="#Loss-function" class="headerlink" title="Loss function"></a>Loss function</h2><p>当处理多分类问题时，常用的损失函数是交叉熵损失函数（Cross-Entropy Loss）。在给定样本和模型输出概率分布向量 (\hat{y} &#x3D; [\hat{y}_1, \hat{y}_2, …, \hat{y}_n]) 的情况下，交叉熵损失函数可以用来衡量模型的预测与真实标签之间的差异。</p>
+<p>具体地，在给定正确的标签向量 (y &#x3D; [0, 1, 0, …, 0])，表示样本属于第 (j) 个类别的情况下，如果模型的预测概率 (\hat{y}_j) 是最大的，即 (j) 是正确的类别，那么交叉熵损失函数的值会接近于 0；反之，如果 (j) 不是正确的类别，则损失函数的值会较大。</p>
+<p>对于你提供的例子，假设正确的类别是第二个类别，即输出标签向量为 (y &#x3D; [0, 1, 0, …, 0])，而模型的预测概率向量为 (\hat{y} &#x3D; [0.2, 0.7, 0.3, …, 0])，那么对应的交叉熵损失函数可以表示为：</p>
+<p>[\text{Loss} &#x3D; - (0 \times \log(0.2) + 1 \times \log(0.7) + 0 \times \log(0.3) + …)]</p>
+<p>[&#x3D; - \log(0.7)]</p>
+<p>因此，在这个样本中，损失函数的值为负对数预测概率 (\log(0.7)) 的负值。</p>
 
                 
               </div>
@@ -300,15 +424,8 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Front-end/" class="category-chain-item">Front-end</a>
+  <a href="/categories/nlp/" class="category-chain-item">nlp</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/Front-end/Vue/" class="category-chain-item">Vue</a>
-  
-  
-
   
 
       </span>
@@ -322,9 +439,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/vue/" class="print-no-link">#vue</a>
+        <a href="/tags/nlp/" class="print-no-link">#nlp</a>
       
-        <a href="/tags/front-end/" class="print-no-link">#front-end</a>
+        <a href="/tags/natural-language-processing/" class="print-no-link">#natural language processing</a>
       
     </div>
   
@@ -336,8 +453,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Reactive in Vue3.0</div>
-      <div>http://example.com/2024/01/23/reactive-in-Vue3-0/</div>
+      <div>NLP week5: HMM</div>
+      <div>http://example.com/2024/04/26/NLP-week5-HMM-and-NN/</div>
     </div>
     <div class="license-meta">
       
@@ -349,7 +466,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>January 23, 2024</div>
+          <div>April 26, 2024</div>
         </div>
       
       
@@ -381,9 +498,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/04/26/NLP-week5-HMM-and-NN/" title="NLP week5: HMM">
+                      <a href="/2024/05/06/CNN/" title="CNN">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">NLP week5: HMM</span>
+                        <span class="hidden-mobile">CNN</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -391,8 +508,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/01/23/expansion-panel/" title="Expansion panel">
-                        <span class="hidden-mobile">Expansion panel</span>
+                      <a href="/2024/01/23/reactive-in-Vue3-0/" title="Reactive in Vue3.0">
+                        <span class="hidden-mobile">Reactive in Vue3.0</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
