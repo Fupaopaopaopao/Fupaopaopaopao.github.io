@@ -16,23 +16,28 @@
   <meta name="author" content="Fuchsia">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Lexical semanticsking - man + woman &#x3D; queen 之前没有见过的词，大多数时间就相当于没有见过（当然存在解决方法），embedding可以猜出来词的意义 数edge len考试时没出现过overall root">
+    <meta name="description" content="本章只考虑这些模型的基本框架，不需要细究  CNN卷积神经网络for NLP的主要途径就是通过sliding window将句子拆分成sequence，最后输出一个sentence embedding的结构。更多的在拼写层级使用CNN。 char vector-&gt; word embedding 具体流程 生成word embedding 用sliding windows生成 subsequ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Lexical semantics">
-<meta property="og:url" content="http://example.com/2024/05/07/Lexical-senmantics/index.html">
+<meta property="og:title" content="CNN">
+<meta property="og:url" content="http://example.com/2024/05/06/CNN/index.html">
 <meta property="og:site_name" content="Fuchsia&#39;s BoLg">
-<meta property="og:description" content="Lexical semanticsking - man + woman &#x3D; queen 之前没有见过的词，大多数时间就相当于没有见过（当然存在解决方法），embedding可以猜出来词的意义 数edge len考试时没出现过overall root">
+<meta property="og:description" content="本章只考虑这些模型的基本框架，不需要细究  CNN卷积神经网络for NLP的主要途径就是通过sliding window将句子拆分成sequence，最后输出一个sentence embedding的结构。更多的在拼写层级使用CNN。 char vector-&gt; word embedding 具体流程 生成word embedding 用sliding windows生成 subsequ">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-05-06T16:51:45.000Z">
-<meta property="article:modified_time" content="2024-05-06T19:02:36.226Z">
+<meta property="og:image" content="http://example.com/img/cnn.png">
+<meta property="og:image" content="http://example.com/img/rnn.png">
+<meta property="og:image" content="http://example.com/img/rnn-struc.png">
+<meta property="og:image" content="http://example.com/img/vanish.png">
+<meta property="article:published_time" content="2024-05-06T09:20:59.000Z">
+<meta property="article:modified_time" content="2024-05-06T19:31:42.730Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/cnn.png">
   
   
   
-  <title>Lexical semantics - Fuchsia&#39;s BoLg</title>
+  <title>CNN - Fuchsia&#39;s BoLg</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Lexical semantics"></span>
+            <span id="subtitle" data-typed-text="CNN"></span>
           
         </div>
 
@@ -209,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-07 02:51" pubdate>
-          May 7, 2024 am
+        <time datetime="2024-05-06 19:20" pubdate>
+          May 6, 2024 pm
         </time>
       </span>
     
@@ -221,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          52 words
+          478 words
         
       </span>
     
@@ -232,7 +237,7 @@
         
         
         
-          1 mins
+          4 mins
         
       </span>
     
@@ -269,14 +274,45 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Lexical semantics</h1>
+            <h1 id="seo-header">CNN</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Lexical-semantics"><a href="#Lexical-semantics" class="headerlink" title="Lexical semantics"></a>Lexical semantics</h1><p>king - man + woman &#x3D; queen</p>
-<p>之前没有见过的词，大多数时间就相当于没有见过（当然存在解决方法），embedding可以猜出来词的意义</p>
-<p>数edge len<br>考试时没出现过overall root</p>
+                <blockquote>
+<p>本章只考虑这些模型的基本框架，不需要细究</p>
+</blockquote>
+<h1 id="CNN"><a href="#CNN" class="headerlink" title="CNN"></a>CNN</h1><p><img src="/img/cnn.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>卷积神经网络for NLP的主要途径就是通过sliding window将句子拆分成sequence，最后输出一个sentence embedding的结构。<br>更多的在拼写层级使用CNN。 char vector-&gt; word embedding</p>
+<h2 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h2><ol>
+<li>生成word embedding</li>
+<li>用sliding windows生成 subsequece of words</li>
+<li>通过convolution把input vector降维</li>
+<li>max-pooling在所有的sliding window生成的output vector中选择每个dimension的optimal value，生成一个最终代表整个sentence的vector representation</li>
+<li>将vector representation输入后续节点进行关系捕捉（普通的NN）</li>
+<li>通过后续NN的loss进行反向传播回到convolution中的para</li>
+<li>从step3开始重复，直到loss收敛</li>
+</ol>
+<h1 id="Recurrent-NN-循环神经网络"><a href="#Recurrent-NN-循环神经网络" class="headerlink" title="Recurrent NN 循环神经网络"></a>Recurrent NN 循环神经网络</h1><p>在这里我们讨论的是最简单的RNN，只有一层hidden layer<br><img src="/img/rnn.png" srcset="/img/loading.gif" lazyload alt="rnn"><br>$$<br>s_i&#x3D;\tanh \left(W_s s_{i-1}+W_x x_i+b\right)<br>$$</p>
+<p><strong>核心思路：</strong> 每次输入一个单词（而不是句子），同时保持之前的状态（有点像记忆之前的单词），每一个node的input是word以及state中的position信息。 <strong>input X可以无限长，eg.我有一个无限长的句子，但是state不需要和X的维度相同</strong>  </p>
+<h2 id="Parameters"><a href="#Parameters" class="headerlink" title="Parameters"></a>Parameters</h2><p><font color=FF00000>值得注意的是,RNN的这些节点是在同一层中，也就是他们共享parameters，因此，无论在哪个时间步上，RNN层的参数都是相同的。</font><br>Wx， Ws， Wy， b</p>
+<h2 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h2><p><img src="/img/rnn-struc.png" srcset="/img/loading.gif" lazyload alt="rnn-s">  </p>
+<ul>
+<li>每次只input一个 x value（vector）</li>
+<li>同样的word在不同的time frame中会产生不同的output</li>
+<li>计算Loss **L &#x3D; L(Y1)+L(Y2)+L(Y3)**：sum of loss at each time frame</li>
+<li>backpropagation through time,更新所有的参数</li>
+</ul>
+<h2 id="RNN的问题"><a href="#RNN的问题" class="headerlink" title="RNN的问题"></a>RNN的问题</h2><ol>
+<li>High traning cost 每一个node相比FFNN（Feedforward Neural Network也就是我们之前提到的最简单的NN模型）维度很高</li>
+<li>因为有时间顺序，所以无法平行化计算</li>
+<li>error propagation， 你必须在整个句子输入之后才能知道错误，unable to locate intermediant error</li>
+<li>Vanish gradient</li>
+</ol>
+<h3 id="Vanish-gradient"><a href="#Vanish-gradient" class="headerlink" title="Vanish gradient"></a>Vanish gradient</h3><p><img src="/img/vanish.png" srcset="/img/loading.gif" lazyload alt="vanish"><br>只记忆不遗忘，就导致本来重要的东西权重很低，对于RNN来说</p>
+<h1 id="Long-Short-Term-Memory-Network"><a href="#Long-Short-Term-Memory-Network" class="headerlink" title="Long Short-Term Memory Network"></a>Long Short-Term Memory Network</h1><blockquote>
+<p>本节中提到的模型在LLM出现之前位于统治地位，可以看看workshop是一个非常好的例子</p>
+</blockquote>
+<p>input gate  the a比重降低 </p>
 
                 
               </div>
@@ -324,8 +360,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Lexical semantics</div>
-      <div>http://example.com/2024/05/07/Lexical-senmantics/</div>
+      <div>CNN</div>
+      <div>http://example.com/2024/05/06/CNN/</div>
     </div>
     <div class="license-meta">
       
@@ -337,7 +373,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>May 7, 2024</div>
+          <div>May 6, 2024</div>
         </div>
       
       
@@ -369,12 +405,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2024/05/07/Lexical-senmantics/" title="Lexical semantics">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Lexical semantics</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/06/CNN/" title="CNN">
-                        <span class="hidden-mobile">CNN</span>
+                      <a href="/2024/04/26/NLP-week5-HMM-and-NN/" title="NLP week5: HMM">
+                        <span class="hidden-mobile">NLP week5: HMM</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -23,19 +23,19 @@
 <meta property="og:site_name" content="Fuchsia&#39;s BoLg">
 <meta property="og:description" content="HMM: hidden markov model词性只跟上一个词性有关，词只和本位置的词性有关。Hidden是因为词性是不知道的。能观察到的是词，通过词反推获得词性建立联系。 也就是说我们想知道两个概率：     这个位置是这个词性的概率 Transition prob (A): P(wi|ti) 这个词性是这个词的概率 Emission prob (O): P(ti-1|ti)  因此，Outp">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/hmm.png">
-<meta property="og:image" content="http://example.com/maxesti-5.png">
-<meta property="og:image" content="http://example.com/tahn.png">
-<meta property="og:image" content="http://example.com/nn.png">
-<meta property="og:image" content="http://example.com/n.png">
-<meta property="og:image" content="http://example.com/nn-struc.png">
+<meta property="og:image" content="http://example.com/img/hmm.png">
+<meta property="og:image" content="http://example.com/img/maxesti-5.png">
+<meta property="og:image" content="http://example.com/img/tahn.png">
+<meta property="og:image" content="http://example.com/img/nn.png">
+<meta property="og:image" content="http://example.com/img/n.png">
+<meta property="og:image" content="http://example.com/img/nn-struc.png">
 <meta property="article:published_time" content="2024-04-26T08:39:32.000Z">
-<meta property="article:modified_time" content="2024-05-06T19:14:16.906Z">
+<meta property="article:modified_time" content="2024-05-06T19:31:04.252Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/hmm.png">
+<meta name="twitter:image" content="http://example.com/img/hmm.png">
   
   
   
@@ -281,7 +281,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="HMM-hidden-markov-model"><a href="#HMM-hidden-markov-model" class="headerlink" title="HMM: hidden markov model"></a>HMM: hidden markov model</h1><p><img src="/hmm.png" srcset="/img/loading.gif" lazyload alt="hmm"><br>词性只跟上一个词性有关，词只和本位置的词性有关。Hidden是因为词性是不知道的。能观察到的是词，通过词反推获得词性建立联系。</p>
+                <h1 id="HMM-hidden-markov-model"><a href="#HMM-hidden-markov-model" class="headerlink" title="HMM: hidden markov model"></a>HMM: hidden markov model</h1><p><img src="/img/hmm.png" srcset="/img/loading.gif" lazyload alt="hmm"><br>词性只跟上一个词性有关，词只和本位置的词性有关。Hidden是因为词性是不知道的。能观察到的是词，通过词反推获得词性建立联系。</p>
 <p>也就是说我们想知道两个概率：   </p>
 <ol>
 <li>这个位置是这个词性的概率 Transition prob (A): P(wi|ti)</li>
@@ -289,7 +289,7 @@
 </ol>
 <p>因此，<br>Output independence:<br><strong>假设： 每个word只依赖于tag, word之间是绝对独立的</strong><br>$$<br>P(\vec{w} \mid \vec{t})&#x3D;\prod_{i&#x3D;1}^n P\left(w_i \mid t_i\right)<br>$$</p>
 <p>Markov assimption:<br>在HMM中，当前的tag只跟前一个有关 （类似于N-gram）<br>$$<br>P(\vec{t})&#x3D;\prod_{i&#x3D;1}^n P\left(t_i \mid t_{i-1}\right)<br>$$</p>
-<p>Maximum likelihood estimation:<br><img src="/maxesti-5.png" srcset="/img/loading.gif" lazyload alt="hmm"><br>$$<br>\begin{aligned}<br>\hat{t} &amp; &#x3D;\operatorname{argmax}<em>t P(\vec{w} \mid \vec{t}) P(\vec{t}) \<br>&amp; &#x3D;\operatorname{argmax}<em>t \prod</em>{i&#x3D;1}^n P\left(w_i \mid t_i\right) P\left(t_1 \mid t</em>{i-1}\right)<br>\end{aligned}<br>$$<br>Core idea : 取所有tag sequences组合中概率最高的</p>
+<p>Maximum likelihood estimation:<br><img src="/img/maxesti-5.png" srcset="/img/loading.gif" lazyload alt="hmm"><br>$$<br>\begin{aligned}<br>\hat{t} &amp; &#x3D;\operatorname{argmax}<em>t P(\vec{w} \mid \vec{t}) P(\vec{t}) \<br>&amp; &#x3D;\operatorname{argmax}<em>t \prod</em>{i&#x3D;1}^n P\left(w_i \mid t_i\right) P\left(t_1 \mid t</em>{i-1}\right)<br>\end{aligned}<br>$$<br>Core idea : 取所有tag sequences组合中概率最高的</p>
 <h2 id="Viterbi-算法"><a href="#Viterbi-算法" class="headerlink" title="Viterbi 算法"></a>Viterbi 算法</h2><p>计算过程：一般题目里面会给两个表格，分别为Table A and Table O, 这两个表记录着计算需要的两个概率。这时我们需要计算第三个表并得出<strong>所有sequence中概率最高的</strong>。</p>
 <h3 id="计算tag-sequence的概率"><a href="#计算tag-sequence的概率" class="headerlink" title="计算tag sequence的概率"></a>计算tag sequence的概率</h3><table>
 <thead>
@@ -362,12 +362,12 @@
 <p>表格中的第一列，都为最基础的，例如第一个单元格中， P(Janet|nnp) x P(NNP|s) &#x3D; Score<br>而第一行的第二个单元格中则需要计算前一个位置的每个词性的score，并取最大值<br>假设，我们现在计算前一个词性为NNP，<br><strong>will,NNP score &#x3D; max((will|nnp) x P(NNP|tJanet) x score(tJanet,Janet))</strong><br><strong>根据最后一列最大的score往前回溯</strong>  </p>
 <p>时间复杂度 $$O\left(T^2 N\right)$$<br>T: size of the tagset, rows<br>N: length of the sequence, columns<br>遍历整个表格是T*N，然后后面为了取最大值每个格子中都是N，所以是以上式子</p>
 <h1 id="Neural-Network"><a href="#Neural-Network" class="headerlink" title="Neural Network"></a>Neural Network</h1><h2 id="Activation-Function"><a href="#Activation-Function" class="headerlink" title="Activation Function"></a>Activation Function</h2><p>主要是为了把linear function来Capture X,Y的关系，比如将一个linear function输出为一个RANGE(-1,1)的向量，同时有很多不同种类的激活函数。<br>Sigmoid中包括logistic function (range(0,1)), tanh(range(-1,1))<br>RuLe:RuLe的计算更简洁</p>
-<h3 id="tanh"><a href="#tanh" class="headerlink" title="tanh"></a>tanh</h3><p>$$<br>\underset{}{h&#x3D;\tanh }\left(\sum_j w_j x_j+b\right)<br>$$<br><img src="/tahn.png" srcset="/img/loading.gif" lazyload alt="tahn">   </p>
+<h3 id="tanh"><a href="#tanh" class="headerlink" title="tanh"></a>tanh</h3><p>$$<br>\underset{}{h&#x3D;\tanh }\left(\sum_j w_j x_j+b\right)<br>$$<br><img src="/img/tahn.png" srcset="/img/loading.gif" lazyload alt="tahn">   </p>
 <h2 id="Neural-Network的基本结构"><a href="#Neural-Network的基本结构" class="headerlink" title="Neural Network的基本结构"></a>Neural Network的基本结构</h2><p>很早之前就有NN，刚开始算力消耗太大并，overfitting严重 ，并行计算促进NN的发展。</p>
 <blockquote>
 <p>Note: 超过两层就可以算deep learning  </p>
 </blockquote>
-<p><img src="/nn.png" srcset="/img/loading.gif" lazyload alt="nn"><br>中间的hidden layer越多捕捉到的关系越复杂，<br>每一层中的node，分别capture一部分的non-linear relationship。<strong>Fully connected</strong> 就是上一层和下一层的每一个节点都连接。<br><img src="/n.png" srcset="/img/loading.gif" lazyload alt="n">   </p>
+<p><img src="/img/nn.png" srcset="/img/loading.gif" lazyload alt="nn"><br>中间的hidden layer越多捕捉到的关系越复杂，<br>每一层中的node，分别capture一部分的non-linear relationship。<strong>Fully connected</strong> 就是上一层和下一层的每一个节点都连接。<br><img src="/img/n.png" srcset="/img/loading.gif" lazyload alt="n">   </p>
 <h3 id="Output-layer"><a href="#Output-layer" class="headerlink" title="Output layer"></a>Output layer</h3><p>输出一共有两种，分别是binary classification和multinomial classification(multi-class classification)</p>
 <ul>
 <li><strong>Binary classification</strong><br>输出层只有一个节点，使用tahn将上一层的函数输入为一个RANGE(-1,1)的值，if -1&lt;y&lt;0, neg; if1&gt;y&gt;&#x3D;0, pos.<blockquote>
@@ -391,7 +391,7 @@
 </ul>
 <p>$$<br>\operatorname{Loss}&#x3D;-\log (L)+\lambda \Sigma\left|w_r\right|<br>$$<br>lambda是系数,后面一项是penalty compont（前一项就是普通的LOSS）</p>
 <h4 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h4><p>随机扔掉一些节点 增加noise<br>dropout rate &#x3D; 0.1 随机干掉0.2的神经元</p>
-<h2 id="NN的topic-classification的过程"><a href="#NN的topic-classification的过程" class="headerlink" title="NN的topic classification的过程"></a>NN的topic classification的过程</h2><p>任务：输入一个文档，输出一个topic<br><img src="/nn-struc.png" srcset="/img/loading.gif" lazyload alt="nn-s"><br>Input：bag-of-words这个就是每个词的频率<br>Output: y-pred &#x3D; [0.2, 0.1, 0.7] eg. 比如说分别是 eco, pol, spo  </p>
+<h2 id="NN的topic-classification的过程"><a href="#NN的topic-classification的过程" class="headerlink" title="NN的topic classification的过程"></a>NN的topic classification的过程</h2><p>任务：输入一个文档，输出一个topic<br><img src="/img/nn-struc.png" srcset="/img/loading.gif" lazyload alt="nn-s"><br>Input：bag-of-words这个就是每个词的频率<br>Output: y-pred &#x3D; [0.2, 0.1, 0.7] eg. 比如说分别是 eco, pol, spo  </p>
 <h3 id="训练模型："><a href="#训练模型：" class="headerlink" title="训练模型："></a>训练模型：</h3><ul>
 <li>将数据输入模型，通过前向传播计算模型输出，并计算损失值。</li>
 <li>通过反向传播计算梯度，并根据选择的优化器更新模型参数。</li>
@@ -498,9 +498,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/07/Lexical-senmantics/" title="Lexical semantics">
+                      <a href="/2024/05/06/CNN/" title="CNN">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Lexical semantics</span>
+                        <span class="hidden-mobile">CNN</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
