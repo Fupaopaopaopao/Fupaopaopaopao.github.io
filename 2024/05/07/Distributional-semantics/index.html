@@ -16,32 +16,23 @@
   <meta name="author" content="Fuchsia">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Lexical semantics Semantics: 单词本身的含义 &#x3D;&gt; embedding， vector space （king - man + woman &#x3D; queen） Bag of words的局限性：(a)无法捕捉词与词之间的关系; (b) Out of vocabulary(之前没有见过的词，大多数时间就相当于没有见过（当然存在解决方法），embed">
+    <meta name="description" content="Distributional semantics 本节将介绍一些Distributional semantics，可以和NN-based区分开">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Lexical semantics">
-<meta property="og:url" content="http://example.com/2024/05/07/Lexical-senmantics/index.html">
+<meta property="og:title" content="Distributional semantics">
+<meta property="og:url" content="http://example.com/2024/05/07/Distributional-semantics/index.html">
 <meta property="og:site_name" content="Fuchsia&#39;s BoLg">
-<meta property="og:description" content="Lexical semantics Semantics: 单词本身的含义 &#x3D;&gt; embedding， vector space （king - man + woman &#x3D; queen） Bag of words的局限性：(a)无法捕捉词与词之间的关系; (b) Out of vocabulary(之前没有见过的词，大多数时间就相当于没有见过（当然存在解决方法），embed">
+<meta property="og:description" content="Distributional semantics 本节将介绍一些Distributional semantics，可以和NN-based区分开">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/img/rule.png">
-<meta property="og:image" content="http://example.com/img/wordnet.png">
-<meta property="og:image" content="http://example.com/img/len-formular.png">
-<meta property="og:image" content="http://example.com/img/depth.png">
-<meta property="og:image" content="http://example.com/img/depth-eg.png">
-<meta property="og:image" content="http://example.com/img/IC.png">
-<meta property="og:image" content="http://example.com/img/IC-formular.png">
-<meta property="og:image" content="http://example.com/img/IC-eg.png">
-<meta property="article:published_time" content="2024-05-06T16:51:45.000Z">
-<meta property="article:modified_time" content="2024-05-06T22:00:55.374Z">
+<meta property="article:published_time" content="2024-05-06T22:35:59.000Z">
+<meta property="article:modified_time" content="2024-05-07T03:42:39.127Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/rule.png">
   
   
   
-  <title>Lexical semantics - Fuchsia&#39;s BoLg</title>
+  <title>Distributional semantics - Fuchsia&#39;s BoLg</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -207,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Lexical semantics"></span>
+            <span id="subtitle" data-typed-text="Distributional semantics"></span>
           
         </div>
 
@@ -218,7 +209,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-07 02:51" pubdate>
+        <time datetime="2024-05-07 08:35" pubdate>
           May 7, 2024 am
         </time>
       </span>
@@ -230,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          871 words
+          16 words
         
       </span>
     
@@ -241,7 +232,7 @@
         
         
         
-          8 mins
+          1 mins
         
       </span>
     
@@ -278,45 +269,14 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Lexical semantics</h1>
+            <h1 id="seo-header">Distributional semantics</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Lexical-semantics"><a href="#Lexical-semantics" class="headerlink" title="Lexical semantics"></a>Lexical semantics</h1><ul>
-<li>Semantics: 单词本身的含义 &#x3D;&gt; embedding， vector space （king - man + woman &#x3D; queen）</li>
-<li>Bag of words的局限性：(a)无法捕捉词与词之间的关系; (b) Out of vocabulary(之前没有见过的词，大多数时间就相当于没有见过（当然存在解决方法），embedding可以猜出来词的意义)</li>
-<li>lexical semantics: 表示词语之间关系的词典（不是用词本身构成句子，而是使用词的含义来代替单词构成句子）</li>
-</ul>
-<h2 id="如何表示词义"><a href="#如何表示词义" class="headerlink" title="如何表示词义"></a>如何表示词义</h2><ol>
-<li>基于文字：通过此定中单词的定义来理解单词，然而<strong>定义本身也是由单词组成，所以想要理解定义的含义必须先学习定义中单词，这会导致陷入死循环</strong></li>
-<li>基于关系：用 rule-based关系定义单词之间的关系<br><img src="/img/rule.png" srcset="/img/loading.gif" lazyload alt="rule"><br><font color=FF7D00>问题:有些词会有很多词义，但有些只有一个</font></li>
-</ol>
-<h3 id="WordNet"><a href="#WordNet" class="headerlink" title="WordNet"></a>WordNet</h3><p>一个树结构的词典，每个单词的每一个sense都有对应的文字定义<br><img src="/img/wordnet.png" srcset="/img/loading.gif" lazyload alt="wordnet"><br>在这里我们可以区分hypernym和meronym的区别，一个是逻辑上的包含一个是物理上的包含，相对应的hyponym和holonnym也是一样的</p>
-<h3 id="Synset"><a href="#Synset" class="headerlink" title="Synset"></a>Synset</h3><p>WordNet中每⼀个node都是⼀个Synset⽽不是word，concept node上⾯的词&#x2F;label只是集合中的第⼀个词。</p>
-<h2 id="Word-similarity"><a href="#Word-similarity" class="headerlink" title="Word similarity"></a>Word similarity</h2><p>在这里，我们将提出集中方法去计算词义相似度</p>
-<ul>
-<li><p><strong>基于路径长度</strong><br><img src="/img/len-formular.png" srcset="/img/loading.gif" lazyload alt="len"><br>对于公式的解释： 首先分母上的1是为了使意思完全相同的单词的相似度为1（同时避免除以0），我们可以把第一个式子直接理解为词义相似度，第二个式子则是为了计算词语相似度（因为一个词与不止有一个意思），取最大值也就是最相似的<br><img src="/img/depth.png" srcset="/img/loading.gif" lazyload alt="depth"><br><font color=FF7D00>问题:从上面的例子可以看出，这种方式无法正确反映词义的距离，词语越深应该edge越短</font>  </p>
-</li>
-<li><p><strong>基于深度</strong></p>
-</li>
-</ul>
-<p>$$<br>\operatorname{simwup}\left(c_1, c_2\right)&#x3D;\frac{2 \times \operatorname{depth}\left(L \operatorname{LCS}\left(c_1, c_2\right)\right)}{\operatorname{depth}\left(c_1\right)+\operatorname{depth}\left(c_2\right)}<br>$$  </p>
-<p>分母：是这两个词本身的位置，代表了这两个词的含义有多精确<br>分子：LCS: lowest common sense, 代表了两个词最小的交集（root）</p>
-<p><img src="/img/depth-eg.png" srcset="/img/loading.gif" lazyload alt="depth"><br><font color=FF7D00>问题:同一个深度的单词edge也不一定相同，比如说，animal分为水生动物和哺乳动物，他们明显edge不同，因为他们的关系不是很简单的分割</font> </p>
-<ul>
-<li><strong>基于IC（Information Content）</strong><br>我们试图使用IC来代替数edge<br><img src="/img/IC.png" srcset="/img/loading.gif" lazyload alt="ic"><br>在这里我们引入一个information content的概念，它使用Unigram prob来计算<br><img src="/img/IC-formular.png" srcset="/img/loading.gif" lazyload alt="ic"><br>concept prob越大，频率越多词义越广，包含的东西越多<br>考试时没出现过overall root,但是很好理解是如果有一个root那他的P应该是1</li>
-</ul>
-<p>$$<br>\operatorname{simlin}\left(c_1, c_2\right)&#x3D;\frac{2 \times \operatorname{IC}\left(\operatorname{LCS}\left(c_1, c_2\right)\right.}{\operatorname{IC}\left(c_1\right)+\operatorname{IC}\left(c_2\right)}<br>$$</p>
-<p><img src="/img/IC-eg.png" srcset="/img/loading.gif" lazyload alt="ic"><br>注意他给的数是概率还是IC</p>
-<h2 id="Word-sense-disambiguation"><a href="#Word-sense-disambiguation" class="headerlink" title="Word sense disambiguation"></a>Word sense disambiguation</h2><p>在这里我们思考一个任务，这个任务是判断句子中每一个词语的正确sense。<br>Baseline：choose the most common sense (无视content，选择最常用的释义)</p>
-<p>以下提供两种方法来解决这个问题：</p>
-<h3 id="Supervised-learning-approach"><a href="#Supervised-learning-approach" class="headerlink" title="Supervised learning approach"></a>Supervised learning approach</h3><p>Input: labelled corput and left context and right context<br>是一个classification model<br><font color=FF7D00>很难构造dataset，因为需要人工标注</font></p>
-<h3 id="Unsupervised-learning-approach"><a href="#Unsupervised-learning-approach" class="headerlink" title="Unsupervised learning approach"></a>Unsupervised learning approach</h3><ol>
-<li>Lesk: 检查词的context和sense定义的重叠成都（context和discription的单词重叠次数）</li>
-<li>Clustering： 收集大量包含某个词的句子</li>
-</ol>
-<p>第二种方法存在问题:<br><font color=FF7D00>1.poor interpretability 2.need to match with definitions in a lexicon(在找出cluster之后仍然需要手动match sense，且大多数时间对不上)</font></p>
+                <h1 id="Distributional-semantics"><a href="#Distributional-semantics" class="headerlink" title="Distributional semantics"></a>Distributional semantics</h1><blockquote>
+<p>本节将介绍一些Distributional semantics，可以和NN-based区分开</p>
+</blockquote>
 
                 
               </div>
@@ -364,8 +324,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Lexical semantics</div>
-      <div>http://example.com/2024/05/07/Lexical-senmantics/</div>
+      <div>Distributional semantics</div>
+      <div>http://example.com/2024/05/07/Distributional-semantics/</div>
     </div>
     <div class="license-meta">
       
@@ -409,18 +369,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/07/Distributional-semantics/" title="Distributional semantics">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Distributional semantics</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/06/CNN/" title="CNN, RNN, LSTM">
-                        <span class="hidden-mobile">CNN, RNN, LSTM</span>
+                      <a href="/2024/05/07/Lexical-senmantics/" title="Lexical semantics">
+                        <span class="hidden-mobile">Lexical semantics</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

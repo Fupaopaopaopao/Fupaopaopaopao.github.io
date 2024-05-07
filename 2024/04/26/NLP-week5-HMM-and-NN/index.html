@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://example.com/img/n.png">
 <meta property="og:image" content="http://example.com/img/nn-struc.png">
 <meta property="article:published_time" content="2024-04-26T08:39:32.000Z">
-<meta property="article:modified_time" content="2024-05-06T19:31:04.252Z">
+<meta property="article:modified_time" content="2024-05-07T01:34:10.289Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
@@ -289,7 +289,9 @@
 </ol>
 <p>因此，<br>Output independence:<br><strong>假设： 每个word只依赖于tag, word之间是绝对独立的</strong><br>$$<br>P(\vec{w} \mid \vec{t})&#x3D;\prod_{i&#x3D;1}^n P\left(w_i \mid t_i\right)<br>$$</p>
 <p>Markov assimption:<br>在HMM中，当前的tag只跟前一个有关 （类似于N-gram）<br>$$<br>P(\vec{t})&#x3D;\prod_{i&#x3D;1}^n P\left(t_i \mid t_{i-1}\right)<br>$$</p>
-<p>Maximum likelihood estimation:<br><img src="/img/maxesti-5.png" srcset="/img/loading.gif" lazyload alt="hmm"><br>$$<br>\begin{aligned}<br>\hat{t} &amp; &#x3D;\operatorname{argmax}<em>t P(\vec{w} \mid \vec{t}) P(\vec{t}) \<br>&amp; &#x3D;\operatorname{argmax}<em>t \prod</em>{i&#x3D;1}^n P\left(w_i \mid t_i\right) P\left(t_1 \mid t</em>{i-1}\right)<br>\end{aligned}<br>$$<br>Core idea : 取所有tag sequences组合中概率最高的</p>
+<p>Maximum likelihood estimation:<br><img src="/img/maxesti-5.png" srcset="/img/loading.gif" lazyload alt="hmm">  </p>
+<p>Core idea : 取所有tag sequences组合中概率最高的</p>
+<p>$$<br>\begin{aligned}<br>\hat{t} &amp; &#x3D;\operatorname{argmax}<em>t P(\vec{w} \mid \vec{t}) P(\vec{t}) \<br>&amp; &#x3D;\operatorname{argmax}<em>t \prod</em>{i&#x3D;1}^n P\left(w_i \mid t_i\right) P\left(t_1 \mid t</em>{i-1}\right)<br>\end{aligned}<br>$$</p>
 <h2 id="Viterbi-算法"><a href="#Viterbi-算法" class="headerlink" title="Viterbi 算法"></a>Viterbi 算法</h2><p>计算过程：一般题目里面会给两个表格，分别为Table A and Table O, 这两个表记录着计算需要的两个概率。这时我们需要计算第三个表并得出<strong>所有sequence中概率最高的</strong>。</p>
 <h3 id="计算tag-sequence的概率"><a href="#计算tag-sequence的概率" class="headerlink" title="计算tag sequence的概率"></a>计算tag sequence的概率</h3><table>
 <thead>
@@ -390,7 +392,7 @@
 <li>L2-norm对于异常值的鲁棒性较差，因为它会受到异常值的平方的影响</li>
 </ul>
 <p>$$<br>\operatorname{Loss}&#x3D;-\log (L)+\lambda \Sigma\left|w_r\right|<br>$$<br>lambda是系数,后面一项是penalty compont（前一项就是普通的LOSS）</p>
-<h4 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h4><p>随机扔掉一些节点 增加noise<br>dropout rate &#x3D; 0.1 随机干掉0.2的神经元</p>
+<h4 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h4><p>随机扔掉一些节点 增加noise<br>dropout rate &#x3D; 0.2 随机干掉0.2的神经元</p>
 <h2 id="NN的topic-classification的过程"><a href="#NN的topic-classification的过程" class="headerlink" title="NN的topic classification的过程"></a>NN的topic classification的过程</h2><p>任务：输入一个文档，输出一个topic<br><img src="/img/nn-struc.png" srcset="/img/loading.gif" lazyload alt="nn-s"><br>Input：bag-of-words这个就是每个词的频率<br>Output: y-pred &#x3D; [0.2, 0.1, 0.7] eg. 比如说分别是 eco, pol, spo  </p>
 <h3 id="训练模型："><a href="#训练模型：" class="headerlink" title="训练模型："></a>训练模型：</h3><ul>
 <li>将数据输入模型，通过前向传播计算模型输出，并计算损失值。</li>
@@ -498,9 +500,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/06/CNN/" title="CNN">
+                      <a href="/2024/05/06/CNN/" title="CNN, RNN, LSTM">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CNN</span>
+                        <span class="hidden-mobile">CNN, RNN, LSTM</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     

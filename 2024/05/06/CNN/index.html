@@ -18,7 +18,7 @@
   
     <meta name="description" content="本章只考虑这些模型的基本框架，不需要细究  CNN卷积神经网络for NLP的主要途径就是通过sliding window将句子拆分成sequence，最后输出一个sentence embedding的结构。更多的在拼写层级使用CNN。 char vector-&gt; word embedding 具体流程 生成word embedding 用sliding windows生成 subsequ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CNN">
+<meta property="og:title" content="CNN, RNN, LSTM">
 <meta property="og:url" content="http://example.com/2024/05/06/CNN/index.html">
 <meta property="og:site_name" content="Fuchsia&#39;s BoLg">
 <meta property="og:description" content="本章只考虑这些模型的基本框架，不需要细究  CNN卷积神经网络for NLP的主要途径就是通过sliding window将句子拆分成sequence，最后输出一个sentence embedding的结构。更多的在拼写层级使用CNN。 char vector-&gt; word embedding 具体流程 生成word embedding 用sliding windows生成 subsequ">
@@ -27,8 +27,13 @@
 <meta property="og:image" content="http://example.com/img/rnn.png">
 <meta property="og:image" content="http://example.com/img/rnn-struc.png">
 <meta property="og:image" content="http://example.com/img/vanish.png">
+<meta property="og:image" content="http://example.com/img/LSTM.png">
+<meta property="og:image" content="http://example.com/img/forget.png">
+<meta property="og:image" content="http://example.com/img/input.png">
+<meta property="og:image" content="http://example.com/img/update.png">
+<meta property="og:image" content="http://example.com/img/output.png">
 <meta property="article:published_time" content="2024-05-06T09:20:59.000Z">
-<meta property="article:modified_time" content="2024-05-06T19:31:42.730Z">
+<meta property="article:modified_time" content="2024-05-07T03:39:52.549Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
@@ -37,7 +42,7 @@
   
   
   
-  <title>CNN - Fuchsia&#39;s BoLg</title>
+  <title>CNN, RNN, LSTM - Fuchsia&#39;s BoLg</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +208,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="CNN"></span>
+            <span id="subtitle" data-typed-text="CNN, RNN, LSTM"></span>
           
         </div>
 
@@ -226,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          478 words
+          843 words
         
       </span>
     
@@ -237,7 +242,7 @@
         
         
         
-          4 mins
+          8 mins
         
       </span>
     
@@ -274,7 +279,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">CNN</h1>
+            <h1 id="seo-header">CNN, RNN, LSTM</h1>
             
             
               <div class="markdown-body">
@@ -292,7 +297,9 @@
 <li>通过后续NN的loss进行反向传播回到convolution中的para</li>
 <li>从step3开始重复，直到loss收敛</li>
 </ol>
-<h1 id="Recurrent-NN-循环神经网络"><a href="#Recurrent-NN-循环神经网络" class="headerlink" title="Recurrent NN 循环神经网络"></a>Recurrent NN 循环神经网络</h1><p>在这里我们讨论的是最简单的RNN，只有一层hidden layer<br><img src="/img/rnn.png" srcset="/img/loading.gif" lazyload alt="rnn"><br>$$<br>s_i&#x3D;\tanh \left(W_s s_{i-1}+W_x x_i+b\right)<br>$$</p>
+<h1 id="Recurrent-NN-循环神经网络"><a href="#Recurrent-NN-循环神经网络" class="headerlink" title="Recurrent NN 循环神经网络"></a>Recurrent NN 循环神经网络</h1><p>在这里我们讨论的是最简单的RNN，只有一层hidden layer  </p>
+<p>$$<br>s_i&#x3D;\tanh \left(W_s s_{i-1}+W_x x_i+b\right)<br>$$  </p>
+<p><img src="/img/rnn.png" srcset="/img/loading.gif" lazyload alt="rnn">  </p>
 <p><strong>核心思路：</strong> 每次输入一个单词（而不是句子），同时保持之前的状态（有点像记忆之前的单词），每一个node的input是word以及state中的position信息。 <strong>input X可以无限长，eg.我有一个无限长的句子，但是state不需要和X的维度相同</strong>  </p>
 <h2 id="Parameters"><a href="#Parameters" class="headerlink" title="Parameters"></a>Parameters</h2><p><font color=FF00000>值得注意的是,RNN的这些节点是在同一层中，也就是他们共享parameters，因此，无论在哪个时间步上，RNN层的参数都是相同的。</font><br>Wx， Ws， Wy， b</p>
 <h2 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h2><p><img src="/img/rnn-struc.png" srcset="/img/loading.gif" lazyload alt="rnn-s">  </p>
@@ -312,7 +319,23 @@
 <h1 id="Long-Short-Term-Memory-Network"><a href="#Long-Short-Term-Memory-Network" class="headerlink" title="Long Short-Term Memory Network"></a>Long Short-Term Memory Network</h1><blockquote>
 <p>本节中提到的模型在LLM出现之前位于统治地位，可以看看workshop是一个非常好的例子</p>
 </blockquote>
-<p>input gate  the a比重降低 </p>
+<p>基于RNN的问题，我们需要一个可以遗忘的模型也就是LSTM<br><img src="/img/LSTM.png" srcset="/img/loading.gif" lazyload alt="LSTM"><br>可以看到每个time frame同样的一个输出一个用于给下一个time node一个用于输出计算loss，与此同时把memory传递一个下一个node  </p>
+<h2 id="怎么理解memory"><a href="#怎么理解memory" class="headerlink" title="怎么理解memory"></a>怎么理解memory</h2><p>在每一个time frame中，会输入一些信息并遗忘一些信息，这部分内容会在下面展开</p>
+<h2 id="Memory详解"><a href="#Memory详解" class="headerlink" title="Memory详解"></a>Memory详解</h2><p>memory中有四个重要的步骤，分别是Forget, Input, Update以及Output  </p>
+<h3 id="Forget"><a href="#Forget" class="headerlink" title="Forget"></a>Forget</h3><p><img src="/img/forget.png" srcset="/img/loading.gif" lazyload alt="forget"><br>previous state就是从上一个节点传过来的output，ft可以看作是一个系数<br>例如，ft&#x3D;0.6 我之前学的总共100个，忘了40个</p>
+<h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h3><p><img src="/img/input.png" srcset="/img/loading.gif" lazyload alt="input"><br>在这一部分除了input gate以外我们还要计算一个新的temp new memo，是用来准备写入<strong>distilled information</strong></p>
+<blockquote>
+<p>什么是知识蒸馏：比如我新学的单词是之前单词的反义词，那么我不需要记住新单词的完整释义，而是和之前学习过的单词组合 <font color=FF00000>其实就是负责降维</font>  </p>
+</blockquote>
+<h3 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h3><p><img src="/img/update.png" srcset="/img/loading.gif" lazyload alt="update"><br>把系数和上一个节点传过来的memory以及这个temp new information相乘</p>
+<h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h3><p><img src="/img/output.png" srcset="/img/loading.gif" lazyload alt="output">  </p>
+<ul>
+<li>output也是同样的训练出来一个系数用于对输出进行筛选</li>
+<li>output本身需要用上面的系数x经过激活函数计算的结果</li>
+</ul>
+<h2 id="考题：parameters的数量计算-其它也可以举一反三"><a href="#考题：parameters的数量计算-其它也可以举一反三" class="headerlink" title="考题：parameters的数量计算(其它也可以举一反三)"></a>考题：parameters的数量计算(其它也可以举一反三)</h2><p>Hidden_dim &#x3D; dimension of output<br>input_dim &#x3D; word embedding dimension</p>
+<p>number of para &#x3D; 4 x (Hidden_dim + input_dim) x Hidden_dim + 4 x Hidden_dim<br>4就是代表计算过程中四种para，分别是Wf, Wi, Wc, Wo<br>row: Hidden_dim + input_dim &#x3D; [ht-1,xt]<br>col: 输出想要的dimension</p>
+<p> 4 x Hidden_dim：b constant</p>
 
                 
               </div>
@@ -360,7 +383,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>CNN</div>
+      <div>CNN, RNN, LSTM</div>
       <div>http://example.com/2024/05/06/CNN/</div>
     </div>
     <div class="license-meta">
