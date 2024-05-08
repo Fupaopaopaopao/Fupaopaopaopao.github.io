@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://example.com/img/loss-prac.png">
 <meta property="og:image" content="http://example.com/img/b-loss.png">
 <meta property="article:published_time" content="2024-05-06T22:35:59.000Z">
-<meta property="article:modified_time" content="2024-05-08T02:02:21.025Z">
+<meta property="article:modified_time" content="2024-05-08T02:08:28.780Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
@@ -327,7 +327,7 @@
 <blockquote>
 <p>Note：我们假设context之间是相互独立的</p>
 </blockquote>
-<h3 id="我们如何把概率计算转化成神经网络"><a href="#我们如何把概率计算转化成神经网络" class="headerlink" title="我们如何把概率计算转化成神经网络"></a>我们如何把概率计算转化成神经网络</h3><p>首先我们要知道，在计算的过程中我们需要两个embedding matrix分别是target word embedding, 以及context word embedding.<br>我们可以把计算概率的过程看作以下网络（其实和普通的NN还是有区别的）<br><img src="/img/w2v-struc.png" srcset="/img/loading.gif" lazyload><br>Input: words in vocabulary<br>类似NN我们需要参数矩阵并通过激活函数获得Hidden layer，在这里我们不适用激活函数，而是直接使用权重矩阵形成projection layer（例如原始是10000维的onehot，想用300维表示，那么使用一个(10000,300)的权重矩阵相乘）<br>输出层的需要一个(300,10000)的权重矩阵，每一个输出都是一个prob（使用softmax）</p>
+<h3 id="我们如何把概率计算转化成神经网络"><a href="#我们如何把概率计算转化成神经网络" class="headerlink" title="我们如何把概率计算转化成神经网络"></a>我们如何把概率计算转化成神经网络</h3><p>首先我们要知道，在计算的过程中我们需要两个embedding matrix分别是target word embedding, 以及context word embedding.<br>我们可以把计算概率的过程看作以下网络（其实和普通的NN还是有区别的）<br><img src="/img/w2v-struc.png" srcset="/img/loading.gif" lazyload><br>Input: one hot vec<br>类似NN我们需要参数矩阵并通过激活函数获得Hidden layer，在这里我们不适用激活函数，而是直接使用权重矩阵形成projection layer（例如原始是10000维的onehot，想用300维表示，那么使用一个(10000,300)的权重矩阵相乘）<br>输出层的需要一个(300,10000)的权重矩阵，每一个输出都是一个prob（使用softmax）</p>
 <ul>
 <li>d: d就是embedding，d的维度就是embedding的维度，那么如何选择d？<br>Rank or hyper parameter tuning</li>
 </ul>
@@ -338,7 +338,7 @@
 <li>我们希望class balance，这样可使#context&#x3D;#non-context</li>
 <li>我们现在不需要在对所有词进行概率计算了，并且使用sigmoid而不是softmax</li>
 </ol>
-<h3 id="Loss-function"><a href="#Loss-function" class="headerlink" title="Loss function"></a>Loss function</h3><p>p(+) &#x3D; sigmoid<br>p(-) &#x3D; 1-sigmoid<br><img src="/img/loss-emb.png" srcset="/img/loading.gif" lazyload><br>对于正样本词（即真实的上下文词），我们希望这个概率越接近1越好；而对于负样本词，我们希望这个概率越接近0越好。（注意minimize and maximazie）<br><img src="/img/loss-prac.png" srcset="/img/loading.gif" lazyload><br>优点：unsupervised，efficient<br><img src="/img/b-loss.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Loss-function"><a href="#Loss-function" class="headerlink" title="Loss function"></a>Loss function</h3><p>p(+) &#x3D; sigmoid<br>p(-) &#x3D; 1-sigmoid<br><img src="/img/loss-emb.png" srcset="/img/loading.gif" lazyload><br>对于正样本词（即真实的上下文词），我们希望这个概率越接近1越好；而对于负样本词，我们希望这个概率越接近0越好。（注意minimize and maximazie）<br><img src="/img/loss-prac.png" srcset="/img/loading.gif" lazyload><br>通常情况下是一个正样本<br>优点：unsupervised，efficient<br><img src="/img/b-loss.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h3><ul>
 <li>Word similarity：cosine similarity<br>计算两个词义相似的单词（well&amp;good）的embedding vector的cosine<br>similarity</li>
 <li>Word analogy：operation in word embedding space<br>meal&#x3D;breakfest+lunch+dinner</li>
