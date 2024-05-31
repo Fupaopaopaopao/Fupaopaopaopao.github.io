@@ -16,35 +16,29 @@
   <meta name="author" content="Fuchsia">
   <meta name="keywords" content="">
   
-    <meta name="description" content="我们希望可以从corpus中自动学习词的意思而不需要人工标注的数据集Distributional hypothesis: 利用单词context来描述词义目前的Distributional semantics分为两大类，和之前提到的embedding中一样是count-based和Neuron based Count-basedUse document as context主要是TD-IDF和SV">
+    <meta name="description" content="Contextual representation之前学习的embedding的局限性(包括word2vec以及TFIDF)每个单词仅有唯一的向量表示，不能区分不同语境下的semantic  解决方案：我们需要基于上下文动态生成词向量(embedding)  基于RNN的contextual representation核心思想把RNN的隐藏层作为“实时词向量”，因为它包含了语序的信息我们可以发现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Distributional semantics">
-<meta property="og:url" content="http://example.com/2024/05/07/Distributional-semantics/index.html">
+<meta property="og:title" content="Contextual representation-1">
+<meta property="og:url" content="http://example.com/2024/05/31/Contextual-representation-1/index.html">
 <meta property="og:site_name" content="Fuchsia&#39;s BoLg">
-<meta property="og:description" content="我们希望可以从corpus中自动学习词的意思而不需要人工标注的数据集Distributional hypothesis: 利用单词context来描述词义目前的Distributional semantics分为两大类，和之前提到的embedding中一样是count-based和Neuron based Count-basedUse document as context主要是TD-IDF和SV">
+<meta property="og:description" content="Contextual representation之前学习的embedding的局限性(包括word2vec以及TFIDF)每个单词仅有唯一的向量表示，不能区分不同语境下的semantic  解决方案：我们需要基于上下文动态生成词向量(embedding)  基于RNN的contextual representation核心思想把RNN的隐藏层作为“实时词向量”，因为它包含了语序的信息我们可以发现">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/img/tfidf.png">
-<meta property="og:image" content="http://example.com/img/SVD.png">
-<meta property="og:image" content="http://example.com/img/lsa.png">
-<meta property="og:image" content="http://example.com/img/content-freq.png">
-<meta property="og:image" content="http://example.com/img/mpi.png">
-<meta property="og:image" content="http://example.com/img/context-eg.png">
-<meta property="og:image" content="http://example.com/img/prob_for.png">
-<meta property="og:image" content="http://example.com/img/w2v-struc.png">
-<meta property="og:image" content="http://example.com/img/loss-emb.png">
-<meta property="og:image" content="http://example.com/img/loss-prac.png">
-<meta property="og:image" content="http://example.com/img/b-loss.png">
-<meta property="article:published_time" content="2024-05-06T22:35:59.000Z">
-<meta property="article:modified_time" content="2024-05-08T02:10:31.683Z">
+<meta property="og:image" content="http://example.com/img/contextual-rnn.png">
+<meta property="og:image" content="http://example.com/img/contextual-birnn.png">
+<meta property="og:image" content="http://example.com/img/contextual-cnn.png">
+<meta property="og:image" content="http://example.com/img/contextual-lstm.png">
+<meta property="og:image" content="http://example.com/img/contextual-validation.png">
+<meta property="article:published_time" content="2024-05-31T10:00:11.000Z">
+<meta property="article:modified_time" content="2024-05-31T11:29:52.212Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/tfidf.png">
+<meta name="twitter:image" content="http://example.com/img/contextual-rnn.png">
   
   
   
-  <title>Distributional semantics - Fuchsia&#39;s BoLg</title>
+  <title>Contextual representation-1 - Fuchsia&#39;s BoLg</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -210,7 +204,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Distributional semantics"></span>
+            <span id="subtitle" data-typed-text="Contextual representation-1"></span>
           
         </div>
 
@@ -221,8 +215,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-07 08:35" pubdate>
-          May 7, 2024 am
+        <time datetime="2024-05-31 20:00" pubdate>
+          May 31, 2024 pm
         </time>
       </span>
     
@@ -233,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k words
+          638 words
         
       </span>
     
@@ -244,7 +238,7 @@
         
         
         
-          10 mins
+          6 mins
         
       </span>
     
@@ -281,69 +275,29 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Distributional semantics</h1>
+            <h1 id="seo-header">Contextual representation-1</h1>
             
             
               <div class="markdown-body">
                 
-                <p>我们希望可以从corpus中自动学习词的意思而不需要人工标注的数据集<br><strong>Distributional hypothesis: 利用单词context来描述词义</strong><br>目前的Distributional semantics分为两大类，和之前提到的embedding中一样是count-based和Neuron based</p>
-<h1 id="Count-based"><a href="#Count-based" class="headerlink" title="Count-based"></a>Count-based</h1><h2 id="Use-document-as-context"><a href="#Use-document-as-context" class="headerlink" title="Use document as context"></a>Use document as context</h2><p>主要是TD-IDF和SVD的细节<br><img src="/img/tfidf.png" srcset="/img/loading.gif" lazyload alt="tfidf"><br>不管是TF还是TD-IDF都是基于Vector Space Model</p>
-<h3 id="Term-frequency"><a href="#Term-frequency" class="headerlink" title="Term frequency"></a>Term frequency</h3><p>对于TF来说，每个col代表一个word，每个row代表一个doc</p>
-<h3 id="Inverse-document-frequency"><a href="#Inverse-document-frequency" class="headerlink" title="Inverse document frequency"></a>Inverse document frequency</h3><p>$$<br>i d f_w&#x3D;\log \frac{|D|}{d f_w}<br>$$</p>
-<ul>
-<li>|D|: total number of documents</li>
-<li>dfw: number of documents that has word(w)<br>所以说如果，单词在不同的doc中出现的越多那么idf越小<br>通过看同一个单词出现在不同doc中里的次数来惩罚TF<br>TF-IDF &#x3D; TF * IDF  <blockquote>
-<p>在这里我们只讨论常规版本的TF-IDF，会有其它版本可以smoothing（TF-IDF可以使用sklearn.TfidfVecorizer()）</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="Dimensionality-Reduction"><a href="#Dimensionality-Reduction" class="headerlink" title="Dimensionality Reduction"></a>Dimensionality Reduction</h3><ul>
-<li><p><strong>Singular Value Decomposition:</strong> SVD向量降维，加速运算去除Noise<br><img src="/img/SVD.png" srcset="/img/loading.gif" lazyload alt="SVD"><br><strong>无损压缩</strong><br>把生成的Vector Space Model拆成三个矩阵，分别是word embedding（new term matrix），连接矩阵，以及doc embedding (new document matrix)<br>线性独立：大概就是行不能约分比如 (1,0,0) (2,0,0)是一样的</p>
-</li>
-<li><p><strong>Latent semantic analysis:</strong> 取前k维，作为word vector，潜在词义分析<br><img src="/img/lsa.png" srcset="/img/loading.gif" lazyload alt="lsa"><br><strong>有损压缩</strong><br>取前k维就是只取前一部分的简单关系，而放弃深层关系，因为很多任务只需要word之间的少量关系</p>
-</li>
-</ul>
-<p>完整的TF-IDF流程：tfidf matrix -&gt; SVD -&gt; U-&gt; pick k -&gt; 只保留前k维 -&gt; word embedding -&gt; LSTM </p>
-<h2 id="Word-as-Context"><a href="#Word-as-Context" class="headerlink" title="Word as Context"></a>Word as Context</h2><p><img src="/img/content-freq.png" srcset="/img/loading.gif" lazyload><br><img src="/img/mpi.png" srcset="/img/loading.gif" lazyload alt="pmi"><br>表中是单词出现在context中的频率，具体多近才是context需要被提前定义<br>和TF相同的是，the这样的common words的问题也会出现   </p>
-<h3 id="Pointwise-Mutual-Information"><a href="#Pointwise-Mutual-Information" class="headerlink" title="Pointwise Mutual Information"></a>Pointwise Mutual Information</h3><p>How much sense shared<br>$$<br>\operatorname{PMI}(x, y)&#x3D;\log _2 \frac{P(x, y)}{P(x) P(y)}<br>$$<br>在一起存在的次数越多意味着 sense shared多关系就大</p>
+                <h1 id="Contextual-representation"><a href="#Contextual-representation" class="headerlink" title="Contextual representation"></a>Contextual representation</h1><h3 id="之前学习的embedding的局限性-包括word2vec以及TFIDF"><a href="#之前学习的embedding的局限性-包括word2vec以及TFIDF" class="headerlink" title="之前学习的embedding的局限性(包括word2vec以及TFIDF)"></a>之前学习的embedding的局限性(包括word2vec以及TFIDF)</h3><p>每个单词仅有唯一的向量表示，不能区分不同语境下的semantic</p>
 <blockquote>
-<p>补充：</p>
+<p>解决方案：我们需要基于上下文动态生成词向量(embedding)</p>
 </blockquote>
-<ol>
-<li>将-inf或者负数替换成0  </li>
-<li>Normalised PMI: PMI(x, y)&#x2F; -logP(x, y)  </li>
-<li>PMI也可以做SVD简化</li>
-</ol>
-<h1 id="NN-based-word2vec"><a href="#NN-based-word2vec" class="headerlink" title="NN-based(word2vec)"></a>NN-based(word2vec)</h1><blockquote>
-<p>其实就是通过context来优化参数获取embedding  </p>
-</blockquote>
-<p>word2vec是一种Neural based distributional semantic，他的主要思想就是predict a word using context words(或者反过来)<br>具体包括两种实现方法，他们是反过来的下面主要用SG举例原理架构<br><img src="/img/context-eg.png" srcset="/img/loading.gif" lazyload>  </p>
-<ul>
-<li>Skip-gram Model(SG): predict surounding words with target word</li>
-<li>Continuous Bag-of-Words(CBOW): predict target word using surrounding words</li>
-</ul>
-<p>实践上来讲，SG更适合低频词，CBOW更适合高频词（同时需要定义超参数context window, 图中L&#x3D;2）</p>
-<h2 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a>核心原理</h2><p>我们需要通过NN的输出也就是是否为context的概率来不断优化参数（也就是embedding），那么我们怎么获得Prob of context words呢<br>$$<br>P\left(c_j \mid w_i\right)&#x3D;\frac{\exp \left(p\left(w_i\right) \cdot v_j\right)}{\sum_{k&#x3D;1}^5 \exp \left(p\left(w_i\right) \cdot v_k\right)}<br>$$<br>根据softmax概率分布我们可以把概率看作P(word | context)<br><img src="/img/prob_for.png" srcset="/img/loading.gif" lazyload>     </p>
+<h2 id="基于RNN的contextual-representation"><a href="#基于RNN的contextual-representation" class="headerlink" title="基于RNN的contextual representation"></a>基于RNN的contextual representation</h2><h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h3><p>把<strong>RNN的隐藏层</strong>作为“实时词向量”，因为它包含了语序的信息<br>我们可以发现，它的隐藏层是通过tanh激活函数激活 concat前一个state以及输入的vector（一般是one-hot）<br><img src="/img/contextual-rnn.png" srcset="/img/loading.gif" lazyload alt="cnn">   </p>
+<h2 id="双向RNN"><a href="#双向RNN" class="headerlink" title="双向RNN"></a>双向RNN</h2><p>词向量不仅和前文有关，也和后文有关，因此我们使用双向rnn分别获取前后文信息并合并(注意，这里的分别获取非常重要，这是和transformer的注意力机制最大区别的地方，在后文会详细讲解)<br><img src="/img/contextual-birnn.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>因为是需要输入后产生的新的state，可以注意一下它最后作为结果的到底是哪个state</p>
+<h2 id="ELMo-embeddings-from-language-models"><a href="#ELMo-embeddings-from-language-models" class="headerlink" title="ELMo(embeddings from language models)"></a>ELMo(embeddings from language models)</h2><h3 id="双层LSTM-双向LSTM"><a href="#双层LSTM-双向LSTM" class="headerlink" title="双层LSTM 双向LSTM"></a>双层LSTM 双向LSTM</h3><p>首先我们要回忆在讲解CNN的时候，我们说CNN通常用来捕获char级别的embedding用来生成word embedding，在max pooling中我们选取每个dimension中optimal value来获得不同部分的表示向量（eg. 我们的输出向量有三个dimension，可以分别代表一个word的词根，前缀以及后缀）</p>
 <blockquote>
-<p>Note：我们假设context之间是相互独立的</p>
+<p>优点: 对比one-hot encoding降低了向量维度，同时解决了unknown words的问题（当我在生成embedding的时候直接输入word，即可生成embedding无论我的train set中有没有）  </p>
 </blockquote>
-<h3 id="我们如何把概率计算转化成神经网络"><a href="#我们如何把概率计算转化成神经网络" class="headerlink" title="我们如何把概率计算转化成神经网络"></a>我们如何把概率计算转化成神经网络</h3><p>首先我们要知道，在计算的过程中我们需要两个embedding matrix分别是target word embedding, 以及context word embedding.<br>我们可以把计算概率的过程看作以下网络（其实和普通的NN还是有区别的）<br><img src="/img/w2v-struc.png" srcset="/img/loading.gif" lazyload><br>Input: one hot vec<br>类似NN我们需要参数矩阵并通过激活函数获得Hidden layer，在这里我们不适用激活函数，而是直接使用权重矩阵形成projection layer（例如原始是10000维的onehot，想用300维表示，那么使用一个(10000,300)的权重矩阵相乘）<br>输出层的需要一个(300,10000)的权重矩阵，每一个输出都是一个prob（使用softmax）</p>
-<ul>
-<li>d: d就是embedding，d的维度就是embedding的维度，那么如何选择d？<br>Rank or hyper parameter tuning</li>
-</ul>
-<p>我们需要通过使正确的context word的概率最大来调整参数获得最优的embedding<br><font color=FF00000>问题：在传统的 Skip-gram 模型中，每个训练步骤涉及计算一个完整的 softmax 函数，该函数需要考虑词汇表中的每个单词，这在大词汇表中非常耗时。</font>  </p>
-<h2 id="Regression-training优化方法"><a href="#Regression-training优化方法" class="headerlink" title="Regression training优化方法"></a>Regression training优化方法</h2><p>为了提高效率，我们希望把概率分布转化成binary classification问题</p>
-<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>我们把所有words看作两个集合，分别是positive context 和 negative context，对于negative context我们随机选取一部分非context words作为negative sample<br>这会带来两个好处： </p>
-<ol>
-<li>我们希望class balance，这样可使#context&#x3D;#non-context</li>
-<li>我们现在不需要在对所有词进行概率计算了，并且使用sigmoid而不是softmax</li>
+<p><img src="/img/contextual-cnn.png" srcset="/img/loading.gif" lazyload alt="cnn">   </p>
+<p>我们可以看到双层LSTM有三层，分别是embedding层（CNN层），以及两层LSTM<br><img src="/img/contextual-lstm.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>然后我们把同一个输入的正向和反向拼在一起，我们有三个weights，这三个权重需要根据任务类型训练<br>final vector &#x3D; s0 * x0 + s1 * x1 + s2 * x2<br>不同任务的权重不同，比图更看重语法的任务低层的权重就会更高（pos tagging），更看重语义的任务高层的权重就会更高（情感分析）</p>
+<h3 id="ELMo有效性"><a href="#ELMo有效性" class="headerlink" title="ELMo有效性"></a>ELMo有效性</h3><p>作为提高embedding的方式，ELMo的有效性还是很高的<br><img src="/img/contextual-validation.png" srcset="/img/loading.gif" lazyload alt="cnn">   </p>
+<h3 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h3><ol>
+<li>RNN&#x2F;LSTM必须顺序计算，无法并行计算，最多双线程并行（正反）</li>
+<li>只能分别获得两个方向的信息并拼在一起，不能同时获得两个方向的信息（比如前面也否定后面也否定但双重否定是肯定，语义在语境中往往非常复杂，不能只考虑一个方向）</li>
 </ol>
-<h3 id="Loss-function"><a href="#Loss-function" class="headerlink" title="Loss function"></a>Loss function</h3><p>p(+) &#x3D; sigmoid<br>p(-) &#x3D; 1-sigmoid<br><img src="/img/loss-emb.png" srcset="/img/loading.gif" lazyload><br>对于正样本词（即真实的上下文词），我们希望这个概率越接近1越好；而对于负样本词，我们希望这个概率越接近0越好。（注意minimize and maximazie）<br><img src="/img/loss-prac.png" srcset="/img/loading.gif" lazyload><br>通常情况下是一个正样本<br>优点：unsupervised，efficient<br><img src="/img/b-loss.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h3><ul>
-<li>Word similarity：cosine similarity<br>计算两个词义相似的单词（well&amp;good）的embedding vector的cosine<br>similarity</li>
-<li>Word analogy：operation in word embedding space<br>meal&#x3D;breakfest+lunch+dinner</li>
-<li>Downstream tasks：evaluate the task performance<br>根据后续⽤到embedding的任务的性能来控制变量的反推embedding的效果</li>
-</ul>
+<h2 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h2><p>因此我们引入注意力机制来同时获取前后语境信息</p>
 
                 
               </div>
@@ -391,8 +345,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Distributional semantics</div>
-      <div>http://example.com/2024/05/07/Distributional-semantics/</div>
+      <div>Contextual representation-1</div>
+      <div>http://example.com/2024/05/31/Contextual-representation-1/</div>
     </div>
     <div class="license-meta">
       
@@ -404,7 +358,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>May 7, 2024</div>
+          <div>May 31, 2024</div>
         </div>
       
       
@@ -436,9 +390,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/31/Contextual-representation-1/" title="Contextual representation-1">
+                      <a href="/2024/05/31/contextual-representation-2-Attention/" title="contextual representation-2 Attention">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Contextual representation-1</span>
+                        <span class="hidden-mobile">contextual representation-2 Attention</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -446,8 +400,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/07/Lexical-senmantics/" title="Lexical semantics">
-                        <span class="hidden-mobile">Lexical semantics</span>
+                      <a href="/2024/05/07/Distributional-semantics/" title="Distributional semantics">
+                        <span class="hidden-mobile">Distributional semantics</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

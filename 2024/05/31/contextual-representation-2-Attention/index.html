@@ -16,35 +16,40 @@
   <meta name="author" content="Fuchsia">
   <meta name="keywords" content="">
   
-    <meta name="description" content="我们希望可以从corpus中自动学习词的意思而不需要人工标注的数据集Distributional hypothesis: 利用单词context来描述词义目前的Distributional semantics分为两大类，和之前提到的embedding中一样是count-based和Neuron based Count-basedUse document as context主要是TD-IDF和SV">
+    <meta name="description" content="注意：本文的顺序和课程内容有很大出入，改变顺序纯属为了便于理解，可能会遗漏小部分知识点  Attention为了理解什么是attention，我们先引入一个task：Machine translation(值得注意的时NLP的基本问题都和这个例子中提到的encoder以及decoder有关，因此不要仅关注于Machine translation) Machine Translation任务目标t">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Distributional semantics">
-<meta property="og:url" content="http://example.com/2024/05/07/Distributional-semantics/index.html">
+<meta property="og:title" content="contextual representation-2 Attention">
+<meta property="og:url" content="http://example.com/2024/05/31/contextual-representation-2-Attention/index.html">
 <meta property="og:site_name" content="Fuchsia&#39;s BoLg">
-<meta property="og:description" content="我们希望可以从corpus中自动学习词的意思而不需要人工标注的数据集Distributional hypothesis: 利用单词context来描述词义目前的Distributional semantics分为两大类，和之前提到的embedding中一样是count-based和Neuron based Count-basedUse document as context主要是TD-IDF和SV">
+<meta property="og:description" content="注意：本文的顺序和课程内容有很大出入，改变顺序纯属为了便于理解，可能会遗漏小部分知识点  Attention为了理解什么是attention，我们先引入一个task：Machine translation(值得注意的时NLP的基本问题都和这个例子中提到的encoder以及decoder有关，因此不要仅关注于Machine translation) Machine Translation任务目标t">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/img/tfidf.png">
-<meta property="og:image" content="http://example.com/img/SVD.png">
-<meta property="og:image" content="http://example.com/img/lsa.png">
-<meta property="og:image" content="http://example.com/img/content-freq.png">
-<meta property="og:image" content="http://example.com/img/mpi.png">
-<meta property="og:image" content="http://example.com/img/context-eg.png">
-<meta property="og:image" content="http://example.com/img/prob_for.png">
-<meta property="og:image" content="http://example.com/img/w2v-struc.png">
-<meta property="og:image" content="http://example.com/img/loss-emb.png">
-<meta property="og:image" content="http://example.com/img/loss-prac.png">
-<meta property="og:image" content="http://example.com/img/b-loss.png">
-<meta property="article:published_time" content="2024-05-06T22:35:59.000Z">
-<meta property="article:modified_time" content="2024-05-08T02:10:31.683Z">
+<meta property="og:image" content="http://example.com/img/attention-align1.png">
+<meta property="og:image" content="http://example.com/img/attention-align2.png">
+<meta property="og:image" content="http://example.com/img/attention-align3.png">
+<meta property="og:image" content="http://example.com/img/attention-align4.png">
+<meta property="og:image" content="http://example.com/img/attention-teacher.png">
+<meta property="og:image" content="http://example.com/img/attention-sb1.png">
+<meta property="og:image" content="http://example.com/img/attention-sb.png">
+<meta property="og:image" content="http://example.com/img/attention-sm1.png">
+<meta property="og:image" content="http://example.com/img/attention-sm2.png">
+<meta property="og:image" content="http://example.com/img/attention-general.png">
+<meta property="og:image" content="http://example.com/img/attention-types.png">
+<meta property="og:image" content="http://example.com/img/attention-gls1.png">
+<meta property="og:image" content="http://example.com/img/attention-gls2.png">
+<meta property="og:image" content="http://example.com/img/attention-bidaf.png">
+<meta property="og:image" content="http://example.com/img/attention-trans.png">
+<meta property="og:image" content="http://example.com/img/attention-llm.png">
+<meta property="article:published_time" content="2024-05-31T12:53:55.000Z">
+<meta property="article:modified_time" content="2024-05-31T15:01:40.342Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/tfidf.png">
+<meta name="twitter:image" content="http://example.com/img/attention-align1.png">
   
   
   
-  <title>Distributional semantics - Fuchsia&#39;s BoLg</title>
+  <title>contextual representation-2 Attention - Fuchsia&#39;s BoLg</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -210,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Distributional semantics"></span>
+            <span id="subtitle" data-typed-text="contextual representation-2 Attention"></span>
           
         </div>
 
@@ -221,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-07 08:35" pubdate>
-          May 7, 2024 am
+        <time datetime="2024-05-31 22:53" pubdate>
+          May 31, 2024 pm
         </time>
       </span>
     
@@ -281,69 +286,60 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Distributional semantics</h1>
+            <h1 id="seo-header">contextual representation-2 Attention</h1>
             
             
               <div class="markdown-body">
                 
-                <p>我们希望可以从corpus中自动学习词的意思而不需要人工标注的数据集<br><strong>Distributional hypothesis: 利用单词context来描述词义</strong><br>目前的Distributional semantics分为两大类，和之前提到的embedding中一样是count-based和Neuron based</p>
-<h1 id="Count-based"><a href="#Count-based" class="headerlink" title="Count-based"></a>Count-based</h1><h2 id="Use-document-as-context"><a href="#Use-document-as-context" class="headerlink" title="Use document as context"></a>Use document as context</h2><p>主要是TD-IDF和SVD的细节<br><img src="/img/tfidf.png" srcset="/img/loading.gif" lazyload alt="tfidf"><br>不管是TF还是TD-IDF都是基于Vector Space Model</p>
-<h3 id="Term-frequency"><a href="#Term-frequency" class="headerlink" title="Term frequency"></a>Term frequency</h3><p>对于TF来说，每个col代表一个word，每个row代表一个doc</p>
-<h3 id="Inverse-document-frequency"><a href="#Inverse-document-frequency" class="headerlink" title="Inverse document frequency"></a>Inverse document frequency</h3><p>$$<br>i d f_w&#x3D;\log \frac{|D|}{d f_w}<br>$$</p>
+                <blockquote>
+<p>注意：本文的顺序和课程内容有很大出入，改变顺序纯属为了便于理解，可能会遗漏小部分知识点</p>
+</blockquote>
+<h1 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h1><p>为了理解什么是attention，我们先引入一个task：Machine translation(值得注意的时NLP的基本问题都和这个例子中提到的encoder以及decoder有关，因此不要仅关注于Machine translation)</p>
+<h2 id="Machine-Translation"><a href="#Machine-Translation" class="headerlink" title="Machine Translation"></a>Machine Translation</h2><h3 id="任务目标"><a href="#任务目标" class="headerlink" title="任务目标"></a>任务目标</h3><p>translate a sentence x from one language (source language) to a sentence t in another language(target language)</p>
+<h3 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h3><p>冷战时期美苏互相翻译，产生了Rule-base方法，其内容不是很通顺</p>
+<h3 id="Statistical-machine-translation"><a href="#Statistical-machine-translation" class="headerlink" title="Statistical machine translation"></a>Statistical machine translation</h3><p><img src="/img/attention-align1.png" srcset="/img/loading.gif" lazyload alt="cnn"><br><img src="/img/attention-align2.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>可以发现，我们主要训练了两个模型，分别是translation model(不在乎输出内容的流畅性)，以及language model(流畅输出内容)</p>
+<h4 id="Translation-model的主要挑战：Text-alignment"><a href="#Translation-model的主要挑战：Text-alignment" class="headerlink" title="Translation model的主要挑战：Text alignment"></a>Translation model的主要挑战：Text alignment</h4><p>使用parallel corpus双语训练集，我必须要知道双语文本之间的具体对应关系<br><img src="/img/attention-align3.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>然而，语言的不同使得它会出现一对零，一对一，一对多，多对一等多种情况<br><img src="/img/attention-align4.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>其实就是训练一个classification模型，使其确定源文本在目标文本的启示位置。</p>
+<h4 id="Language-Model"><a href="#Language-Model" class="headerlink" title="Language Model"></a>Language Model</h4><p>我们可以使用N-gram或者RNN等模型来实现语言模型。<br><img src="/img/attention-teacher.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>回忆RNN，我们最早会把每一个节点的输入作为下一个节点的输出，但这会导致error propagation. 因此我们需要<strong>Teacher forcing</strong>。要强制每一个节点的输入都是正确的。</p>
+<h3 id="Nerual-Machine-Translation"><a href="#Nerual-Machine-Translation" class="headerlink" title="Nerual Machine Translation"></a>Nerual Machine Translation</h3><p>我们原本的模型be like： Chinese -&gt; broken eng -&gt; eng, 我们为什么还需要broken eng呢？因此我们应该把它改为机器更容易理解的encode。所以目前的NN机器翻译主要有encoder和decoder两个部分，并且这样可以高度模块化，可以在应对不同语言时只训练decoder或者只训练encoder。  </p>
+<h4 id="Bottle-neck-problem"><a href="#Bottle-neck-problem" class="headerlink" title="Bottle-neck problem"></a>Bottle-neck problem</h4><p>回顾RNN以及LSTM，encode就是隐藏层的最后输出，然而他的大小有限，尽管LSTM在某种程度上缓解了RNN的梯度消失的问题，但是无法解决Memory大小有限的问题。这个问题我们称之为： <strong>Bottle-neck problem</strong><br><img src="/img/attention-sb1.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
+<h4 id="How-to-solve-the-information-bottle-neck-issue"><a href="#How-to-solve-the-information-bottle-neck-issue" class="headerlink" title="How to solve the information bottle-neck issue?"></a>How to solve the information bottle-neck issue?</h4><p><img src="/img/attention-sb.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>我们在训练decoder的时候时刻关注着真实输入，这就是Attention的基本原理，我将在下面展开讲解attention</p>
+<h4 id="训练数据有限？-low-resource-language-dataset"><a href="#训练数据有限？-low-resource-language-dataset" class="headerlink" title="训练数据有限？ low-resource language dataset?"></a>训练数据有限？ low-resource language dataset?</h4><p>结合多语言输入，使用word sense disambiguation辅助翻译</p>
+<h2 id="Attention-1"><a href="#Attention-1" class="headerlink" title="Attention"></a>Attention</h2><p>attention其实就是一个对encoder,decoder的隐藏层进行相似度计算，来获得不同输入的权重（这是最基本的attention，后面还有很多变种）</p>
+<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>像上面说的，梯度消失和瓶颈问题</p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>On each step of the decoder, use direct connection to the encoder to focus on a particular part of the input sequence.</p>
+<h3 id="Attention-在sequence-model中的使用"><a href="#Attention-在sequence-model中的使用" class="headerlink" title="Attention 在sequence model中的使用"></a>Attention 在sequence model中的使用</h3><p>回到我们前面讲的macine translate的问题上我们使用RNN&#x2F;LSTM sequence model去解决encoder以及decoder问题。<br><img src="/img/attention-sm1.png" srcset="/img/loading.gif" lazyload alt="cnn"><br><img src="/img/attention-sm2.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>我们的decoder不再仅仅使用单一的encoder输出向量最为训练的输入，在这个例子中，我们只是简单的把每一个隐藏层计算点积相似度，送入softmax层输出每个输入的概率（也就是attention）<br>在最后的输出中也就是，decoder的输出中我们concatenate attention output with decoder hidden state</p>
+<h3 id="Attention的优点"><a href="#Attention的优点" class="headerlink" title="Attention的优点"></a>Attention的优点</h3><p>![cnn](&#x2F;img&#x2F;NLP task.png) </p>
+<h3 id="Attention更广泛的定义"><a href="#Attention更广泛的定义" class="headerlink" title="Attention更广泛的定义"></a>Attention更广泛的定义</h3><p>给⼀组向量value和⼀个向量query，Attention是⼀种根据查询来计算向量值加权和的技术<br><img src="/img/attention-general.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
+<h3 id="Attention变种"><a href="#Attention变种" class="headerlink" title="Attention变种"></a>Attention变种</h3><p><img src="/img/attention-types.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
+<h3 id="不同的Attention机制"><a href="#不同的Attention机制" class="headerlink" title="不同的Attention机制"></a>不同的Attention机制</h3><p><img src="/img/attention-gls1.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
 <ul>
-<li>|D|: total number of documents</li>
-<li>dfw: number of documents that has word(w)<br>所以说如果，单词在不同的doc中出现的越多那么idf越小<br>通过看同一个单词出现在不同doc中里的次数来惩罚TF<br>TF-IDF &#x3D; TF * IDF  <blockquote>
-<p>在这里我们只讨论常规版本的TF-IDF，会有其它版本可以smoothing（TF-IDF可以使用sklearn.TfidfVecorizer()）</p>
-</blockquote>
-</li>
+<li>Global: attending to the entire input state space.</li>
+<li>Local: Attending to the part of input state space.</li>
 </ul>
-<h3 id="Dimensionality-Reduction"><a href="#Dimensionality-Reduction" class="headerlink" title="Dimensionality Reduction"></a>Dimensionality Reduction</h3><ul>
-<li><p><strong>Singular Value Decomposition:</strong> SVD向量降维，加速运算去除Noise<br><img src="/img/SVD.png" srcset="/img/loading.gif" lazyload alt="SVD"><br><strong>无损压缩</strong><br>把生成的Vector Space Model拆成三个矩阵，分别是word embedding（new term matrix），连接矩阵，以及doc embedding (new document matrix)<br>线性独立：大概就是行不能约分比如 (1,0,0) (2,0,0)是一样的</p>
-</li>
-<li><p><strong>Latent semantic analysis:</strong> 取前k维，作为word vector，潜在词义分析<br><img src="/img/lsa.png" srcset="/img/loading.gif" lazyload alt="lsa"><br><strong>有损压缩</strong><br>取前k维就是只取前一部分的简单关系，而放弃深层关系，因为很多任务只需要word之间的少量关系</p>
-</li>
-</ul>
-<p>完整的TF-IDF流程：tfidf matrix -&gt; SVD -&gt; U-&gt; pick k -&gt; 只保留前k维 -&gt; word embedding -&gt; LSTM </p>
-<h2 id="Word-as-Context"><a href="#Word-as-Context" class="headerlink" title="Word as Context"></a>Word as Context</h2><p><img src="/img/content-freq.png" srcset="/img/loading.gif" lazyload><br><img src="/img/mpi.png" srcset="/img/loading.gif" lazyload alt="pmi"><br>表中是单词出现在context中的频率，具体多近才是context需要被提前定义<br>和TF相同的是，the这样的common words的问题也会出现   </p>
-<h3 id="Pointwise-Mutual-Information"><a href="#Pointwise-Mutual-Information" class="headerlink" title="Pointwise Mutual Information"></a>Pointwise Mutual Information</h3><p>How much sense shared<br>$$<br>\operatorname{PMI}(x, y)&#x3D;\log _2 \frac{P(x, y)}{P(x) P(y)}<br>$$<br>在一起存在的次数越多意味着 sense shared多关系就大</p>
-<blockquote>
-<p>补充：</p>
-</blockquote>
+<h4 id="Self-attention"><a href="#Self-attention" class="headerlink" title="Self-attention"></a>Self-attention</h4><p><img src="/img/attention-gls2.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>普通的attention是关联decoder的每⼀个output到encoder的每⼀个input，Self-attention是在同⼀句话的每⼀个输出关联到本句话的所有输⼊。</p>
+<h3 id="一些架构"><a href="#一些架构" class="headerlink" title="一些架构"></a>一些架构</h3><h4 id="Bi-Directional-Attention-Flow（Bi-DAF）"><a href="#Bi-Directional-Attention-Flow（Bi-DAF）" class="headerlink" title="Bi-Directional Attention Flow（Bi-DAF）"></a>Bi-Directional Attention Flow（Bi-DAF）</h4><p><img src="/img/attention-bidaf.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
 <ol>
-<li>将-inf或者负数替换成0  </li>
-<li>Normalised PMI: PMI(x, y)&#x2F; -logP(x, y)  </li>
-<li>PMI也可以做SVD简化</li>
+<li><p>输入层<br>输入层包含上下文和问题的嵌入表示。可以使用预训练的词嵌入（如GloVe或Word2Vec）或通过模型内的嵌入层来获得。</p>
+</li>
+<li><p>词嵌入层<br>对上下文和问题的词嵌入进行处理。通常使用字符级别的嵌入来增强词嵌入表示。</p>
+</li>
+<li><p>上下文编码层<br>使用双向LSTM或GRU对上下文和问题的词嵌入进行编码，捕获每个词在其上下文中的语义信息。</p>
+</li>
+<li><p>注意力流层<br>这是BiDAF模型的核心部分，通过计算上下文和问题之间的相似度矩阵来实现双向注意力。</p>
+</li>
 </ol>
-<h1 id="NN-based-word2vec"><a href="#NN-based-word2vec" class="headerlink" title="NN-based(word2vec)"></a>NN-based(word2vec)</h1><blockquote>
-<p>其实就是通过context来优化参数获取embedding  </p>
-</blockquote>
-<p>word2vec是一种Neural based distributional semantic，他的主要思想就是predict a word using context words(或者反过来)<br>具体包括两种实现方法，他们是反过来的下面主要用SG举例原理架构<br><img src="/img/context-eg.png" srcset="/img/loading.gif" lazyload>  </p>
 <ul>
-<li>Skip-gram Model(SG): predict surounding words with target word</li>
-<li>Continuous Bag-of-Words(CBOW): predict target word using surrounding words</li>
+<li><strong>问题到上下文注意力（Question-to-Context Attention）</strong>：突出与问题密切相关的上下文词。</li>
+<li><strong>上下文到问题注意力（Context-to-Question Attention）</strong>：强调问题中与当前上下文片段相关的重要词。</li>
 </ul>
-<p>实践上来讲，SG更适合低频词，CBOW更适合高频词（同时需要定义超参数context window, 图中L&#x3D;2）</p>
-<h2 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a>核心原理</h2><p>我们需要通过NN的输出也就是是否为context的概率来不断优化参数（也就是embedding），那么我们怎么获得Prob of context words呢<br>$$<br>P\left(c_j \mid w_i\right)&#x3D;\frac{\exp \left(p\left(w_i\right) \cdot v_j\right)}{\sum_{k&#x3D;1}^5 \exp \left(p\left(w_i\right) \cdot v_k\right)}<br>$$<br>根据softmax概率分布我们可以把概率看作P(word | context)<br><img src="/img/prob_for.png" srcset="/img/loading.gif" lazyload>     </p>
-<blockquote>
-<p>Note：我们假设context之间是相互独立的</p>
-</blockquote>
-<h3 id="我们如何把概率计算转化成神经网络"><a href="#我们如何把概率计算转化成神经网络" class="headerlink" title="我们如何把概率计算转化成神经网络"></a>我们如何把概率计算转化成神经网络</h3><p>首先我们要知道，在计算的过程中我们需要两个embedding matrix分别是target word embedding, 以及context word embedding.<br>我们可以把计算概率的过程看作以下网络（其实和普通的NN还是有区别的）<br><img src="/img/w2v-struc.png" srcset="/img/loading.gif" lazyload><br>Input: one hot vec<br>类似NN我们需要参数矩阵并通过激活函数获得Hidden layer，在这里我们不适用激活函数，而是直接使用权重矩阵形成projection layer（例如原始是10000维的onehot，想用300维表示，那么使用一个(10000,300)的权重矩阵相乘）<br>输出层的需要一个(300,10000)的权重矩阵，每一个输出都是一个prob（使用softmax）</p>
-<ul>
-<li>d: d就是embedding，d的维度就是embedding的维度，那么如何选择d？<br>Rank or hyper parameter tuning</li>
-</ul>
-<p>我们需要通过使正确的context word的概率最大来调整参数获得最优的embedding<br><font color=FF00000>问题：在传统的 Skip-gram 模型中，每个训练步骤涉及计算一个完整的 softmax 函数，该函数需要考虑词汇表中的每个单词，这在大词汇表中非常耗时。</font>  </p>
-<h2 id="Regression-training优化方法"><a href="#Regression-training优化方法" class="headerlink" title="Regression training优化方法"></a>Regression training优化方法</h2><p>为了提高效率，我们希望把概率分布转化成binary classification问题</p>
-<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>我们把所有words看作两个集合，分别是positive context 和 negative context，对于negative context我们随机选取一部分非context words作为negative sample<br>这会带来两个好处： </p>
-<ol>
-<li>我们希望class balance，这样可使#context&#x3D;#non-context</li>
-<li>我们现在不需要在对所有词进行概率计算了，并且使用sigmoid而不是softmax</li>
+<ol start="5">
+<li><p>建模层<br>通过将双向注意力流的结果和原始上下文编码结合起来，再次通过双向LSTM或GRU进行处理，捕捉高阶交互信息。</p>
+</li>
+<li><p>输出层<br>最终通过输出层来预测答案的起始和结束位置。</p>
+</li>
 </ol>
-<h3 id="Loss-function"><a href="#Loss-function" class="headerlink" title="Loss function"></a>Loss function</h3><p>p(+) &#x3D; sigmoid<br>p(-) &#x3D; 1-sigmoid<br><img src="/img/loss-emb.png" srcset="/img/loading.gif" lazyload><br>对于正样本词（即真实的上下文词），我们希望这个概率越接近1越好；而对于负样本词，我们希望这个概率越接近0越好。（注意minimize and maximazie）<br><img src="/img/loss-prac.png" srcset="/img/loading.gif" lazyload><br>通常情况下是一个正样本<br>优点：unsupervised，efficient<br><img src="/img/b-loss.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h3><ul>
-<li>Word similarity：cosine similarity<br>计算两个词义相似的单词（well&amp;good）的embedding vector的cosine<br>similarity</li>
-<li>Word analogy：operation in word embedding space<br>meal&#x3D;breakfest+lunch+dinner</li>
-<li>Downstream tasks：evaluate the task performance<br>根据后续⽤到embedding的任务的性能来控制变量的反推embedding的效果</li>
-</ul>
+<h4 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h4><p><img src="/img/attention-trans.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
+<h4 id="LLM"><a href="#LLM" class="headerlink" title="LLM"></a>LLM</h4><p><img src="/img/attention-llm.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
 
                 
               </div>
@@ -391,8 +387,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Distributional semantics</div>
-      <div>http://example.com/2024/05/07/Distributional-semantics/</div>
+      <div>contextual representation-2 Attention</div>
+      <div>http://example.com/2024/05/31/contextual-representation-2-Attention/</div>
     </div>
     <div class="license-meta">
       
@@ -404,7 +400,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>May 7, 2024</div>
+          <div>May 31, 2024</div>
         </div>
       
       
@@ -436,18 +432,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/31/Contextual-representation-1/" title="Contextual representation-1">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Contextual representation-1</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/07/Lexical-senmantics/" title="Lexical semantics">
-                        <span class="hidden-mobile">Lexical semantics</span>
+                      <a href="/2024/05/31/Contextual-representation-1/" title="Contextual representation-1">
+                        <span class="hidden-mobile">Contextual representation-1</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
