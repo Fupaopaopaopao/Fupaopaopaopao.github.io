@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://example.com/img/attention-trans.png">
 <meta property="og:image" content="http://example.com/img/attention-llm.png">
 <meta property="article:published_time" content="2024-05-31T12:53:55.000Z">
-<meta property="article:modified_time" content="2024-05-31T15:04:48.922Z">
+<meta property="article:modified_time" content="2024-05-31T15:07:18.969Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
@@ -298,27 +298,27 @@
 <h1 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h1><p>为了理解什么是attention，我们先引入一个task：Machine translation(值得注意的时NLP的基本问题都和这个例子中提到的encoder以及decoder有关，因此不要仅关注于Machine translation)</p>
 <h2 id="Machine-Translation"><a href="#Machine-Translation" class="headerlink" title="Machine Translation"></a>Machine Translation</h2><h3 id="任务目标"><a href="#任务目标" class="headerlink" title="任务目标"></a>任务目标</h3><p>translate a sentence x from one language (source language) to a sentence t in another language(target language)</p>
 <h3 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h3><p>冷战时期美苏互相翻译，产生了Rule-base方法，其内容不是很通顺</p>
-<h3 id="Statistical-machine-translation"><a href="#Statistical-machine-translation" class="headerlink" title="Statistical machine translation"></a>Statistical machine translation</h3><p><img src="/img/attention-align1.png" srcset="/img/loading.gif" lazyload alt="cnn"><br><img src="/img/attention-align2.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>可以发现，我们主要训练了两个模型，分别是translation model(不在乎输出内容的流畅性)，以及language model(流畅输出内容)</p>
-<h4 id="Translation-model的主要挑战：Text-alignment"><a href="#Translation-model的主要挑战：Text-alignment" class="headerlink" title="Translation model的主要挑战：Text alignment"></a>Translation model的主要挑战：Text alignment</h4><p>使用parallel corpus双语训练集，我必须要知道双语文本之间的具体对应关系<br><img src="/img/attention-align3.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>然而，语言的不同使得它会出现一对零，一对一，一对多，多对一等多种情况<br><img src="/img/attention-align4.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>其实就是训练一个classification模型，使其确定源文本在目标文本的启示位置。</p>
-<h4 id="Language-Model"><a href="#Language-Model" class="headerlink" title="Language Model"></a>Language Model</h4><p>我们可以使用N-gram或者RNN等模型来实现语言模型。<br><img src="/img/attention-teacher.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>回忆RNN，我们最早会把每一个节点的输入作为下一个节点的输出，但这会导致error propagation. 因此我们需要<strong>Teacher forcing</strong>。要强制每一个节点的输入都是正确的。</p>
+<h3 id="Statistical-machine-translation"><a href="#Statistical-machine-translation" class="headerlink" title="Statistical machine translation"></a>Statistical machine translation</h3><p><img src="/img/attention-align1.png" srcset="/img/loading.gif" lazyload><br><img src="/img/attention-align2.png" srcset="/img/loading.gif" lazyload><br>可以发现，我们主要训练了两个模型，分别是translation model(不在乎输出内容的流畅性)，以及language model(流畅输出内容)</p>
+<h4 id="Translation-model的主要挑战：Text-alignment"><a href="#Translation-model的主要挑战：Text-alignment" class="headerlink" title="Translation model的主要挑战：Text alignment"></a>Translation model的主要挑战：Text alignment</h4><p>使用parallel corpus双语训练集，我必须要知道双语文本之间的具体对应关系<br><img src="/img/attention-align3.png" srcset="/img/loading.gif" lazyload><br>然而，语言的不同使得它会出现一对零，一对一，一对多，多对一等多种情况<br><img src="/img/attention-align4.png" srcset="/img/loading.gif" lazyload><br>其实就是训练一个classification模型，使其确定源文本在目标文本的启示位置。</p>
+<h4 id="Language-Model"><a href="#Language-Model" class="headerlink" title="Language Model"></a>Language Model</h4><p>我们可以使用N-gram或者RNN等模型来实现语言模型。<br><img src="/img/attention-teacher.png" srcset="/img/loading.gif" lazyload><br>回忆RNN，我们最早会把每一个节点的输入作为下一个节点的输出，但这会导致error propagation. 因此我们需要<strong>Teacher forcing</strong>。要强制每一个节点的输入都是正确的。</p>
 <h3 id="Nerual-Machine-Translation"><a href="#Nerual-Machine-Translation" class="headerlink" title="Nerual Machine Translation"></a>Nerual Machine Translation</h3><p>我们原本的模型be like： Chinese -&gt; broken eng -&gt; eng, 我们为什么还需要broken eng呢？因此我们应该把它改为机器更容易理解的encode。所以目前的NN机器翻译主要有encoder和decoder两个部分，并且这样可以高度模块化，可以在应对不同语言时只训练decoder或者只训练encoder。  </p>
-<h4 id="Bottle-neck-problem"><a href="#Bottle-neck-problem" class="headerlink" title="Bottle-neck problem"></a>Bottle-neck problem</h4><p>回顾RNN以及LSTM，encode就是隐藏层的最后输出，然而他的大小有限，尽管LSTM在某种程度上缓解了RNN的梯度消失的问题，但是无法解决Memory大小有限的问题。这个问题我们称之为： <strong>Bottle-neck problem</strong><br><img src="/img/attention-sb1.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
-<h4 id="How-to-solve-the-information-bottle-neck-issue"><a href="#How-to-solve-the-information-bottle-neck-issue" class="headerlink" title="How to solve the information bottle-neck issue?"></a>How to solve the information bottle-neck issue?</h4><p><img src="/img/attention-sb.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>我们在训练decoder的时候时刻关注着真实输入，这就是Attention的基本原理，我将在下面展开讲解attention</p>
+<h4 id="Bottle-neck-problem"><a href="#Bottle-neck-problem" class="headerlink" title="Bottle-neck problem"></a>Bottle-neck problem</h4><p>回顾RNN以及LSTM，encode就是隐藏层的最后输出，然而他的大小有限，尽管LSTM在某种程度上缓解了RNN的梯度消失的问题，但是无法解决Memory大小有限的问题。这个问题我们称之为： <strong>Bottle-neck problem</strong><br><img src="/img/attention-sb1.png" srcset="/img/loading.gif" lazyload>  </p>
+<h4 id="How-to-solve-the-information-bottle-neck-issue"><a href="#How-to-solve-the-information-bottle-neck-issue" class="headerlink" title="How to solve the information bottle-neck issue?"></a>How to solve the information bottle-neck issue?</h4><p><img src="/img/attention-sb.png" srcset="/img/loading.gif" lazyload><br>我们在训练decoder的时候时刻关注着真实输入，这就是Attention的基本原理，我将在下面展开讲解attention</p>
 <h4 id="训练数据有限？-low-resource-language-dataset"><a href="#训练数据有限？-low-resource-language-dataset" class="headerlink" title="训练数据有限？ low-resource language dataset?"></a>训练数据有限？ low-resource language dataset?</h4><p>结合多语言输入，使用word sense disambiguation辅助翻译</p>
 <h2 id="Attention-1"><a href="#Attention-1" class="headerlink" title="Attention"></a>Attention</h2><p>attention其实就是一个对encoder,decoder的隐藏层进行相似度计算，来获得不同输入的权重（这是最基本的attention，后面还有很多变种）</p>
 <h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>像上面说的，梯度消失和瓶颈问题</p>
 <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>On each step of the decoder, use direct connection to the encoder to focus on a particular part of the input sequence.</p>
-<h3 id="Attention-在sequence-model中的使用"><a href="#Attention-在sequence-model中的使用" class="headerlink" title="Attention 在sequence model中的使用"></a>Attention 在sequence model中的使用</h3><p>回到我们前面讲的macine translate的问题上我们使用RNN&#x2F;LSTM sequence model去解决encoder以及decoder问题。<br><img src="/img/attention-sm1.png" srcset="/img/loading.gif" lazyload alt="cnn"><br><img src="/img/attention-sm2.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>我们的decoder不再仅仅使用单一的encoder输出向量最为训练的输入，在这个例子中，我们只是简单的把每一个隐藏层计算点积相似度，送入softmax层输出每个输入的概率（也就是attention）<br>在最后的输出中也就是，decoder的输出中我们concatenate attention output with decoder hidden state</p>
-<h3 id="Attention的优点"><a href="#Attention的优点" class="headerlink" title="Attention的优点"></a>Attention的优点</h3><p><img src="/img/attention-advan.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
-<h3 id="Attention更广泛的定义"><a href="#Attention更广泛的定义" class="headerlink" title="Attention更广泛的定义"></a>Attention更广泛的定义</h3><p>给⼀组向量value和⼀个向量query，Attention是⼀种根据查询来计算向量值加权和的技术<br><img src="/img/attention-general.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
-<h3 id="Attention变种"><a href="#Attention变种" class="headerlink" title="Attention变种"></a>Attention变种</h3><p><img src="/img/attention-types.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
-<h3 id="不同的Attention机制"><a href="#不同的Attention机制" class="headerlink" title="不同的Attention机制"></a>不同的Attention机制</h3><p><img src="/img/attention-gls1.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
+<h3 id="Attention-在sequence-model中的使用"><a href="#Attention-在sequence-model中的使用" class="headerlink" title="Attention 在sequence model中的使用"></a>Attention 在sequence model中的使用</h3><p>回到我们前面讲的macine translate的问题上我们使用RNN&#x2F;LSTM sequence model去解决encoder以及decoder问题。<br><img src="/img/attention-sm1.png" srcset="/img/loading.gif" lazyload><br><img src="/img/attention-sm2.png" srcset="/img/loading.gif" lazyload><br>我们的decoder不再仅仅使用单一的encoder输出向量最为训练的输入，在这个例子中，我们只是简单的把每一个隐藏层计算点积相似度，送入softmax层输出每个输入的概率（也就是attention）<br>在最后的输出中也就是，decoder的输出中我们concatenate attention output with decoder hidden state</p>
+<h3 id="Attention的优点"><a href="#Attention的优点" class="headerlink" title="Attention的优点"></a>Attention的优点</h3><p><img src="/img/attention-advan.png" srcset="/img/loading.gif" lazyload>  </p>
+<h3 id="Attention更广泛的定义"><a href="#Attention更广泛的定义" class="headerlink" title="Attention更广泛的定义"></a>Attention更广泛的定义</h3><p>给⼀组向量value和⼀个向量query，Attention是⼀种根据查询来计算向量值加权和的技术<br><img src="/img/attention-general.png" srcset="/img/loading.gif" lazyload>  </p>
+<h3 id="Attention变种"><a href="#Attention变种" class="headerlink" title="Attention变种"></a>Attention变种</h3><p><img src="/img/attention-types.png" srcset="/img/loading.gif" lazyload>  </p>
+<h3 id="不同的Attention机制"><a href="#不同的Attention机制" class="headerlink" title="不同的Attention机制"></a>不同的Attention机制</h3><p><img src="/img/attention-gls1.png" srcset="/img/loading.gif" lazyload>  </p>
 <ul>
 <li>Global: attending to the entire input state space.</li>
 <li>Local: Attending to the part of input state space.</li>
 </ul>
-<h4 id="Self-attention"><a href="#Self-attention" class="headerlink" title="Self-attention"></a>Self-attention</h4><p><img src="/img/attention-gls2.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>普通的attention是关联decoder的每⼀个output到encoder的每⼀个input，Self-attention是在同⼀句话的每⼀个输出关联到本句话的所有输⼊。</p>
-<h3 id="一些架构"><a href="#一些架构" class="headerlink" title="一些架构"></a>一些架构</h3><h4 id="Bi-Directional-Attention-Flow（Bi-DAF）"><a href="#Bi-Directional-Attention-Flow（Bi-DAF）" class="headerlink" title="Bi-Directional Attention Flow（Bi-DAF）"></a>Bi-Directional Attention Flow（Bi-DAF）</h4><p><img src="/img/attention-bidaf.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
+<h4 id="Self-attention"><a href="#Self-attention" class="headerlink" title="Self-attention"></a>Self-attention</h4><p><img src="/img/attention-gls2.png" srcset="/img/loading.gif" lazyload><br>普通的attention是关联decoder的每⼀个output到encoder的每⼀个input，Self-attention是在同⼀句话的每⼀个输出关联到本句话的所有输⼊。</p>
+<h3 id="一些架构"><a href="#一些架构" class="headerlink" title="一些架构"></a>一些架构</h3><h4 id="Bi-Directional-Attention-Flow（Bi-DAF）"><a href="#Bi-Directional-Attention-Flow（Bi-DAF）" class="headerlink" title="Bi-Directional Attention Flow（Bi-DAF）"></a>Bi-Directional Attention Flow（Bi-DAF）</h4><p><img src="/img/attention-bidaf.png" srcset="/img/loading.gif" lazyload>  </p>
 <ol>
 <li><p>输入层<br>输入层包含上下文和问题的嵌入表示。可以使用预训练的词嵌入（如GloVe或Word2Vec）或通过模型内的嵌入层来获得。</p>
 </li>
@@ -339,8 +339,8 @@
 <li><p>输出层<br>最终通过输出层来预测答案的起始和结束位置。</p>
 </li>
 </ol>
-<h4 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h4><p><img src="/img/attention-trans.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
-<h4 id="LLM"><a href="#LLM" class="headerlink" title="LLM"></a>LLM</h4><p><img src="/img/attention-llm.png" srcset="/img/loading.gif" lazyload alt="cnn">  </p>
+<h4 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h4><p><img src="/img/attention-trans.png" srcset="/img/loading.gif" lazyload>  </p>
+<h4 id="LLM"><a href="#LLM" class="headerlink" title="LLM"></a>LLM</h4><p><img src="/img/attention-llm.png" srcset="/img/loading.gif" lazyload>  </p>
 
                 
               </div>

@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://example.com/img/contextual-lstm.png">
 <meta property="og:image" content="http://example.com/img/contextual-validation.png">
 <meta property="article:published_time" content="2024-05-31T10:00:11.000Z">
-<meta property="article:modified_time" content="2024-05-31T11:29:52.212Z">
+<meta property="article:modified_time" content="2024-05-31T15:07:30.665Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="nlp">
 <meta property="article:tag" content="natural language processing">
@@ -284,15 +284,15 @@
 <blockquote>
 <p>解决方案：我们需要基于上下文动态生成词向量(embedding)</p>
 </blockquote>
-<h2 id="基于RNN的contextual-representation"><a href="#基于RNN的contextual-representation" class="headerlink" title="基于RNN的contextual representation"></a>基于RNN的contextual representation</h2><h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h3><p>把<strong>RNN的隐藏层</strong>作为“实时词向量”，因为它包含了语序的信息<br>我们可以发现，它的隐藏层是通过tanh激活函数激活 concat前一个state以及输入的vector（一般是one-hot）<br><img src="/img/contextual-rnn.png" srcset="/img/loading.gif" lazyload alt="cnn">   </p>
-<h2 id="双向RNN"><a href="#双向RNN" class="headerlink" title="双向RNN"></a>双向RNN</h2><p>词向量不仅和前文有关，也和后文有关，因此我们使用双向rnn分别获取前后文信息并合并(注意，这里的分别获取非常重要，这是和transformer的注意力机制最大区别的地方，在后文会详细讲解)<br><img src="/img/contextual-birnn.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>因为是需要输入后产生的新的state，可以注意一下它最后作为结果的到底是哪个state</p>
+<h2 id="基于RNN的contextual-representation"><a href="#基于RNN的contextual-representation" class="headerlink" title="基于RNN的contextual representation"></a>基于RNN的contextual representation</h2><h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h3><p>把<strong>RNN的隐藏层</strong>作为“实时词向量”，因为它包含了语序的信息<br>我们可以发现，它的隐藏层是通过tanh激活函数激活 concat前一个state以及输入的vector（一般是one-hot）<br><img src="/img/contextual-rnn.png" srcset="/img/loading.gif" lazyload>   </p>
+<h2 id="双向RNN"><a href="#双向RNN" class="headerlink" title="双向RNN"></a>双向RNN</h2><p>词向量不仅和前文有关，也和后文有关，因此我们使用双向rnn分别获取前后文信息并合并(注意，这里的分别获取非常重要，这是和transformer的注意力机制最大区别的地方，在后文会详细讲解)<br><img src="/img/contextual-birnn.png" srcset="/img/loading.gif" lazyload><br>因为是需要输入后产生的新的state，可以注意一下它最后作为结果的到底是哪个state</p>
 <h2 id="ELMo-embeddings-from-language-models"><a href="#ELMo-embeddings-from-language-models" class="headerlink" title="ELMo(embeddings from language models)"></a>ELMo(embeddings from language models)</h2><h3 id="双层LSTM-双向LSTM"><a href="#双层LSTM-双向LSTM" class="headerlink" title="双层LSTM 双向LSTM"></a>双层LSTM 双向LSTM</h3><p>首先我们要回忆在讲解CNN的时候，我们说CNN通常用来捕获char级别的embedding用来生成word embedding，在max pooling中我们选取每个dimension中optimal value来获得不同部分的表示向量（eg. 我们的输出向量有三个dimension，可以分别代表一个word的词根，前缀以及后缀）</p>
 <blockquote>
 <p>优点: 对比one-hot encoding降低了向量维度，同时解决了unknown words的问题（当我在生成embedding的时候直接输入word，即可生成embedding无论我的train set中有没有）  </p>
 </blockquote>
-<p><img src="/img/contextual-cnn.png" srcset="/img/loading.gif" lazyload alt="cnn">   </p>
-<p>我们可以看到双层LSTM有三层，分别是embedding层（CNN层），以及两层LSTM<br><img src="/img/contextual-lstm.png" srcset="/img/loading.gif" lazyload alt="cnn"><br>然后我们把同一个输入的正向和反向拼在一起，我们有三个weights，这三个权重需要根据任务类型训练<br>final vector &#x3D; s0 * x0 + s1 * x1 + s2 * x2<br>不同任务的权重不同，比图更看重语法的任务低层的权重就会更高（pos tagging），更看重语义的任务高层的权重就会更高（情感分析）</p>
-<h3 id="ELMo有效性"><a href="#ELMo有效性" class="headerlink" title="ELMo有效性"></a>ELMo有效性</h3><p>作为提高embedding的方式，ELMo的有效性还是很高的<br><img src="/img/contextual-validation.png" srcset="/img/loading.gif" lazyload alt="cnn">   </p>
+<p><img src="/img/contextual-cnn.png" srcset="/img/loading.gif" lazyload>   </p>
+<p>我们可以看到双层LSTM有三层，分别是embedding层（CNN层），以及两层LSTM<br><img src="/img/contextual-lstm.png" srcset="/img/loading.gif" lazyload><br>然后我们把同一个输入的正向和反向拼在一起，我们有三个weights，这三个权重需要根据任务类型训练<br>final vector &#x3D; s0 * x0 + s1 * x1 + s2 * x2<br>不同任务的权重不同，比图更看重语法的任务低层的权重就会更高（pos tagging），更看重语义的任务高层的权重就会更高（情感分析）</p>
+<h3 id="ELMo有效性"><a href="#ELMo有效性" class="headerlink" title="ELMo有效性"></a>ELMo有效性</h3><p>作为提高embedding的方式，ELMo的有效性还是很高的<br><img src="/img/contextual-validation.png" srcset="/img/loading.gif" lazyload>   </p>
 <h3 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h3><ol>
 <li>RNN&#x2F;LSTM必须顺序计算，无法并行计算，最多双线程并行（正反）</li>
 <li>只能分别获得两个方向的信息并拼在一起，不能同时获得两个方向的信息（比如前面也否定后面也否定但双重否定是肯定，语义在语境中往往非常复杂，不能只考虑一个方向）</li>
