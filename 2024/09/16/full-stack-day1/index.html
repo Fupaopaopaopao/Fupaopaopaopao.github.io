@@ -1,0 +1,690 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fuchsia">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Creat project12npx creat-react-app .npm start RouterIn the app.js file, we can construct main page and set router. So in this case, we have a component call Navbar, and it need to be shown on all page">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Start new react project">
+<meta property="og:url" content="http://example.com/2024/09/16/full-stack-day1/index.html">
+<meta property="og:site_name" content="Fuchsia&#39;s BoLg">
+<meta property="og:description" content="Creat project12npx creat-react-app .npm start RouterIn the app.js file, we can construct main page and set router. So in this case, we have a component call Navbar, and it need to be shown on all page">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/login-cart-btn">
+<meta property="article:published_time" content="2024-09-16T02:18:48.000Z">
+<meta property="article:modified_time" content="2024-11-05T06:46:45.701Z">
+<meta property="article:author" content="Fuchsia">
+<meta property="article:tag" content="React">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/login-cart-btn">
+  
+  
+  
+  <title>Start new react project - Fuchsia&#39;s BoLg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fuchsia&lt;333</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/back.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Start new react project"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-16 12:18" pubdate>
+          September 16, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Start new react project</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Creat-project"><a href="#Creat-project" class="headerlink" title="Creat project"></a>Creat project</h1><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">npx creat-react-app .<br><span class="hljs-built_in">npm</span> start<br></code></pre></td></tr></table></figure>
+<h1 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h1><p>In the <strong>app.js</strong> file, we can construct main page and set router. So in this case, we have a component call <strong>Navbar</strong>, and it need to be shown on all pages in site.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span> () &#123;<br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">BrowserRouter</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">Navbar</span> /&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">Routes</span>&gt;</span></span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;/&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">&#123;</span>&lt;<span class="hljs-attr">Shop</span> /&gt;</span>&#125; /&gt;</span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;/men&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">&#123;</span>&lt;<span class="hljs-attr">ShopCategory</span> <span class="hljs-attr">category</span>=<span class="hljs-string">&quot;men&quot;</span> /&gt;</span>&#125; /&gt;</span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;/women&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">&#123;</span>&lt;<span class="hljs-attr">ShopCategory</span> <span class="hljs-attr">category</span>=<span class="hljs-string">&quot;women&quot;</span> /&gt;</span>&#125; /&gt;</span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;/kids&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">&#123;</span>&lt;<span class="hljs-attr">ShopCategory</span> <span class="hljs-attr">category</span>=<span class="hljs-string">&quot;kids&quot;</span> /&gt;</span>&#125; /&gt;</span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;/product&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">&#123;</span>&lt;<span class="hljs-attr">Product</span> /&gt;</span>&#125; &gt;</span><br><span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;:productId&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">&#123;</span>&lt;<span class="hljs-attr">Product</span> /&gt;</span>&#125; /&gt;</span><br><span class="language-xml">          <span class="hljs-tag">&lt;/<span class="hljs-name">Route</span>&gt;</span></span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;/cart&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">&#123;</span>&lt;<span class="hljs-attr">Cart</span> /&gt;</span>&#125; /&gt;</span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;/login&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">&#123;</span>&lt;<span class="hljs-attr">LoginSignup</span> /&gt;</span>&#125; /&gt;</span><br><span class="language-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">Routes</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">BrowserRouter</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  );<br>&#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>Note: <strong>ES7+ React&#x2F;Redux&#x2F;React-Native snippets</strong> This extention can auto generate import and quick framework. “rafc”</p>
+</blockquote>
+<h1 id="Router-in-page-Navbar"><a href="#Router-in-page-Navbar" class="headerlink" title="Router in page (Navbar)"></a>Router in page (Navbar)</h1><figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="language-xml">export const Navbar = () =&gt; &#123;</span><br><span class="language-xml"></span><br><span class="language-xml">  const [menu, setMenu] = useState(&quot;shop&quot;)</span><br><span class="language-xml">  return (</span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#x27;navbar&#x27;</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#x27;nav-logo&#x27;</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#123;logo&#125;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&#x27;&#x27;</span> /&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>SHOPPER<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#x27;nav-menu&#x27;</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#123;menu</span> === <span class="hljs-string">&quot;shop&quot;</span> ? &quot;<span class="hljs-attr">active</span>&quot; <span class="hljs-attr">:</span> &quot;&quot;&#125; <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> &#123; setMenu(&quot;shop&quot;) &#125;&#125;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">style</span>=</span></span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">textDecoration:</span> <span class="hljs-string">&#x27;none&#x27;</span>, color: <span class="hljs-string">&#x27;inherit&#x27;</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag"> <span class="hljs-attr">to</span>=<span class="hljs-string">&#x27;/&#x27;</span>&gt;</span>Shop<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>&#123;menu === &quot;shop&quot; ? <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;animated-hr&quot;</span> /&gt;</span> : <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;hidden-hr&quot;</span> /&gt;</span>&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#123;menu</span> === <span class="hljs-string">&quot;men&quot;</span> ? &quot;<span class="hljs-attr">active</span>&quot; <span class="hljs-attr">:</span> &quot;&quot;&#125; <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> &#123; setMenu(&quot;men&quot;) &#125;&#125;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">style</span>=</span></span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">textDecoration:</span> <span class="hljs-string">&#x27;none&#x27;</span>, color: <span class="hljs-string">&#x27;inherit&#x27;</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag"> <span class="hljs-attr">to</span>=<span class="hljs-string">&#x27;/men&#x27;</span>&gt;</span>Men<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>&#123;menu === &quot;men&quot; ? <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;animated-hr&quot;</span> /&gt;</span> : <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;hidden-hr&quot;</span> /&gt;</span>&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#123;menu</span> === <span class="hljs-string">&quot;women&quot;</span> ? &quot;<span class="hljs-attr">active</span>&quot; <span class="hljs-attr">:</span> &quot;&quot;&#125; <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> &#123; setMenu(&quot;women&quot;) &#125;&#125;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">style</span>=</span></span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">textDecoration:</span> <span class="hljs-string">&#x27;none&#x27;</span>, color: <span class="hljs-string">&#x27;inherit&#x27;</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag"> <span class="hljs-attr">to</span>=<span class="hljs-string">&#x27;/women&#x27;</span>&gt;</span>Women<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>&#123;menu === &quot;women&quot; ? <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;animated-hr&quot;</span> /&gt;</span> : <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;hidden-hr&quot;</span> /&gt;</span>&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#123;menu</span> === <span class="hljs-string">&quot;kids&quot;</span> ? &quot;<span class="hljs-attr">active</span>&quot; <span class="hljs-attr">:</span> &quot;&quot;&#125; <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> &#123; setMenu(&quot;kids&quot;) &#125;&#125;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">style</span>=</span></span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">textDecoration:</span> <span class="hljs-string">&#x27;none&#x27;</span>, color: <span class="hljs-string">&#x27;inherit&#x27;</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag"> <span class="hljs-attr">to</span>=<span class="hljs-string">&#x27;/kids&#x27;</span>&gt;</span>Kids<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>&#123;menu === &quot;kids&quot; ? <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;animated-hr&quot;</span> /&gt;</span> : <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;hidden-hr&quot;</span> /&gt;</span>&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;nav-login-cart&quot;</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">style</span>=</span></span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">textDecoration:</span> <span class="hljs-string">&#x27;none&#x27;</span>, color: <span class="hljs-string">&#x27;inherit&#x27;</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag"> <span class="hljs-attr">to</span>=<span class="hljs-string">&#x27;/login&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Login<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">style</span>=</span></span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">textDecoration:</span> <span class="hljs-string">&#x27;none&#x27;</span>, color: <span class="hljs-string">&#x27;inherit&#x27;</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag"> <span class="hljs-attr">to</span>=<span class="hljs-string">&#x27;/cart&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#123;cart_icon&#125;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;nav-cart-count&quot;</span>&gt;</span></span><br><span class="language-xml">          0</span><br><span class="language-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">  )</span><br><span class="language-xml">&#125;</span><br><span class="language-xml"></span><br></code></pre></td></tr></table></figure>
+<p>让我们来拆解这个代码块，首先这个代码实现了一个导航栏的组件，点击切换页面。以及一个cart的图标。</p>
+<h2 id="tab切换页面"><a href="#tab切换页面" class="headerlink" title="tab切换页面"></a>tab切换页面</h2><ol>
+<li>我们希望通过列表实现tab切换页面<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs css">&lt;<span class="hljs-selector-tag">ul</span>&gt;<br>&lt;<span class="hljs-selector-tag">li</span>&gt;<br>&lt;/<span class="hljs-selector-tag">ul</span>&gt;<br><br><br>style:<br>.nav-menu &#123;<br>  <span class="hljs-attribute">display</span>: flex;<br>  <span class="hljs-attribute">align-items</span>: center;<br>  <span class="hljs-attribute">list-style</span>: none;<br>  <span class="hljs-attribute">gap</span>: <span class="hljs-number">50px</span>;<br>  <span class="hljs-attribute">color</span>: <span class="hljs-number">#626262</span>;<br>  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;<br>  <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">500</span>;<br>&#125;<br><br><span class="hljs-selector-class">.nav-menu</span> <span class="hljs-selector-tag">li</span> &#123;<br>  //<span class="hljs-attribute">flex</span>默认横向排列<br>  <span class="hljs-attribute">display</span>: flex;<br>  <span class="hljs-attribute">flex-direction</span>: column;<br><br>  //水平垂直居中<br>  <span class="hljs-attribute">align-items</span>: center;<br>  <span class="hljs-attribute">justify-content</span>: center;<br>  //<br>  <span class="hljs-attribute">gap</span>: <span class="hljs-number">3px</span>;<br>  //点击效果<br>  <span class="hljs-attribute">cursor</span>: pointer;<br>&#125;<br></code></pre></td></tr></table></figure>
+通过list style更改list默认的点，最后使用cursor: pointer优化点击效果。</li>
+</ol>
+<h2 id="navbar-跳转"><a href="#navbar-跳转" class="headerlink" title="navbar 跳转"></a>navbar 跳转</h2><figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#123;menu</span> === <span class="hljs-string">&quot;shop&quot;</span> ? &quot;<span class="hljs-attr">active</span>&quot; <span class="hljs-attr">:</span> &quot;&quot;&#125; <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> &#123; setMenu(&quot;shop&quot;) &#125;&#125;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">style</span>=</span></span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">textDecoration:</span> <span class="hljs-string">&#x27;none&#x27;</span>, color: <span class="hljs-string">&#x27;inherit&#x27;</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag"> <span class="hljs-attr">to</span>=<span class="hljs-string">&#x27;/&#x27;</span>&gt;</span>Shop<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>&#123;menu === &quot;shop&quot; ? <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;animated-hr&quot;</span> /&gt;</span> : <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;hidden-hr&quot;</span> /&gt;</span>&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+<ol>
+<li>className指的是如果menu等于这个值那么这个list的class将被赋值active</li>
+<li><code>setMenu(&quot;shop&quot;)</code>当我们点击的时候设置menu值为本项id，根据<code> const [menu, setMenu] = useState(&quot;shop&quot;)</code></li>
+<li><code>&lt;Link style=&#123;&#123; textDecoration: 'none', color: 'inherit' &#125;&#125; to=&#39;/&#39;&gt;Shop&lt;/Link&gt;</code>首先我们保证link不会影响style，to后面是需要跳转的url</li>
+<li><code>&#123;menu === &quot;shop&quot; ? &lt;hr className=&quot;animated-hr&quot; /&gt; : &lt;hr className=&quot;hidden-hr&quot; /&gt;&#125;</code>就是hr展开的一个动画<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.nav-menu</span> <span class="hljs-selector-class">.animated-hr</span> &#123;<br>  <span class="hljs-attribute">border</span>: none;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">80%</span>;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">3px</span>;<br>  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">10px</span>;<br>  <span class="hljs-attribute">background</span>: <span class="hljs-number">#FF4141</span>;<br>  <span class="hljs-attribute">transition</span>: width <span class="hljs-number">0.5s</span>;<br>&#125;<br><br><br><span class="hljs-selector-class">.nav-menu</span> <span class="hljs-selector-class">.hidden-hr</span> &#123;<br>  <span class="hljs-attribute">border</span>: none;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">0</span>;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">3px</span>;<br>  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">10px</span>;<br>  <span class="hljs-attribute">background</span>: <span class="hljs-number">#FF4141</span>;<br>  <span class="hljs-attribute">transition</span>: width <span class="hljs-number">0.5s</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="btn效果"><a href="#btn效果" class="headerlink" title="btn效果"></a>btn效果</h2><p><img src="/img/login-cart-btn" srcset="/img/loading.gif" lazyload alt="btn">  </p>
+<h3 id="单线btn"><a href="#单线btn" class="headerlink" title="单线btn"></a>单线btn</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.nav-login-cart</span> <span class="hljs-selector-tag">button</span> &#123;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">157px</span>;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">58px</span>;<br>  <span class="hljs-attribute">outline</span>: none;<br>  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#7a7a7a</span>;<br>  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">75px</span>;<br>  <span class="hljs-attribute">color</span>: <span class="hljs-number">#515151</span>;<br>  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;<br>  <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">500</span>;<br>  <span class="hljs-attribute">background-color</span>: white;<br>  <span class="hljs-attribute">cursor</span>: pointer;<br>&#125;<br><br><span class="hljs-selector-class">.nav-login-cart</span> <span class="hljs-selector-tag">button</span><span class="hljs-selector-pseudo">:active</span> &#123;<br>  <span class="hljs-attribute">background</span>: <span class="hljs-number">#f3f3f3</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h1 id="cart-icon以及右上角红色提醒"><a href="#cart-icon以及右上角红色提醒" class="headerlink" title="cart icon以及右上角红色提醒"></a>cart icon以及右上角红色提醒</h1><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.nav-cart-count</span> &#123;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">22px</span>;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">22px</span>;<br>  <span class="hljs-attribute">display</span>: flex;<br>  <span class="hljs-attribute">justify-content</span>: center;<br>  <span class="hljs-attribute">align-items</span>: center;<br>  //主要靠这两个实现右上角显示<br>  <span class="hljs-attribute">margin-top</span>: -<span class="hljs-number">35px</span>;<br>  <span class="hljs-attribute">margin-left</span>: -<span class="hljs-number">55px</span>;<br>  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">11px</span>;<br>  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">14px</span>;<br>  <span class="hljs-attribute">background</span>: red;<br>  <span class="hljs-attribute">color</span>: white;<br>&#125;<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/React/" class="print-no-link">#React</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Start new react project</div>
+      <div>http://example.com/2024/09/16/full-stack-day1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Fuchsia</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>September 16, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/01/Transformer-and-BERT/" title="Transformer and BERT">
+                        <span class="hidden-mobile">Transformer and BERT</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
