@@ -4,11 +4,89 @@
   
   
   <entry>
+    <title>Remove Duplicates from Sorted Array</title>
+    <link href="/2024/11/07/Remove-Duplicates-from-Sorted-Array/"/>
+    <url>/2024/11/07/Remove-Duplicates-from-Sorted-Array/</url>
+    
+    <content type="html"><![CDATA[<p>同样作为删除列表问题，我们沿用同一种思路。<br><strong>值得注意的是，这个列表是一个已经排序的列表，这意味着所有的相同元素都会相邻，因此我们只要保证元素不会和前一个元素相同即可</strong></p><p>Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.</p><p>Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:</p><p>Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.</p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">removeDuplicates</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:<br><br>        cnt = <span class="hljs-number">1</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-built_in">len</span>(nums)):<br>            <span class="hljs-keyword">if</span> nums[i] != nums[i-<span class="hljs-number">1</span>]:<br>                nums[cnt] = nums[i]<br>                cnt += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> cnt<br>        <br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Remove Element</title>
+    <link href="/2024/11/07/Remove-Element/"/>
+    <url>/2024/11/07/Remove-Element/</url>
+    
+    <content type="html"><![CDATA[<p>所有的列表中删除都会遇到这个问题，就是我们不能使用index作为循环的指标，因为在删除的时候会更改index。所以我们希望通过把想留下的数值换到要删除的位置，这样所有的不需要的数都会留存在列表的结尾。</p><p>Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.</p><p>Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:</p><p>Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.<br>Return k.</p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">removeElement</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], val: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>        cnt = <span class="hljs-number">0</span> <br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(nums)):<br>            <span class="hljs-keyword">if</span> nums[i] != val:<br>                nums[cnt] = nums[i]<br>                cnt+=<span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> cnt<br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Merge sorted Array</title>
+    <link href="/2024/11/07/Merge-sorted-Array/"/>
+    <url>/2024/11/07/Merge-sorted-Array/</url>
+    
+    <content type="html"><![CDATA[<p>You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.</p><p>Merge nums1 and nums2 into a single array sorted in non-decreasing order.</p><p>The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.</p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">merge</span>(<span class="hljs-params">self, nums1: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], m: <span class="hljs-built_in">int</span>, nums2: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], n: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-literal">None</span>:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Do not return anything, modify nums1 in-place instead.</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>            nums1[m] = nums2[i]<br>            m += <span class="hljs-number">1</span><br>        nums1.sort()<br></code></pre></td></tr></table></figure><blockquote><p>我原来想直接用切片然后把两个在一起，但是这种在一个循环里面解决显然更快</p></blockquote>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>一些特殊的css style</title>
+    <link href="/2024/11/05/%E4%B8%80%E4%BA%9B%E7%89%B9%E6%AE%8A%E7%9A%84css-style/"/>
+    <url>/2024/11/05/%E4%B8%80%E4%BA%9B%E7%89%B9%E6%AE%8A%E7%9A%84css-style/</url>
+    
+    <content type="html"><![CDATA[<h1 id="justify-content"><a href="#justify-content" class="headerlink" title="justify-content"></a>justify-content</h1><p>我们一般使用这个来控制元素在水平方向是的排列</p><ol><li>justify-content：center</li><li>justify-content：space-between</li></ol><p>justify-content: space-between; 会将容器内的子元素均匀分布在主轴上，并在每个元素之间留出相等的空间：</p><p>第一个子元素贴近容器的起始边。<br>最后一个子元素贴近容器的结束边。<br>中间的子元素之间留出相等的空间。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>frontend</tag>
+      
+      <tag>Css</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>How to import font in react project</title>
     <link href="/2024/11/05/How-to-import-font-in-react-project/"/>
     <url>/2024/11/05/How-to-import-font-in-react-project/</url>
     
-    <content type="html"><![CDATA[<h1 id="引入字体Poppins"><a href="#引入字体Poppins" class="headerlink" title="引入字体Poppins"></a>引入字体Poppins</h1><p>在public中的<code>index.html</code>，以下网址we can get code like this<br><a href="https://fonts.google.com/specimen/Poppins">https://fonts.google.com/specimen/Poppins</a></p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;link <span class="hljs-attribute">rel</span>=<span class="hljs-string">&quot;preconnect&quot;</span> <span class="hljs-attribute">href</span>=<span class="hljs-string">&quot;https://fonts.googleapis.com&quot;</span>&gt;<br>&lt;link <span class="hljs-attribute">rel</span>=<span class="hljs-string">&quot;preconnect&quot;</span> <span class="hljs-attribute">href</span>=<span class="hljs-string">&quot;https://fonts.gstatic.com&quot;</span> crossorigin&gt;<br>&lt;link <span class="hljs-attribute">href</span>=<span class="hljs-string">&quot;https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap&quot;</span> <span class="hljs-attribute">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span>&gt;<br></code></pre></td></tr></table></figure><p>在<code>index.css</code>中把字体设置为Poppins</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">body</span> &#123;<br>  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;<br>  <span class="hljs-attribute">font-family</span>: -apple-system, BlinkMacSystemFont, <span class="hljs-string">&#x27;Segoe UI&#x27;</span>, <span class="hljs-string">&#x27;Roboto&#x27;</span>, <span class="hljs-string">&#x27;Oxygen&#x27;</span>,<br>    <span class="hljs-string">&#x27;Ubuntu&#x27;</span>, <span class="hljs-string">&#x27;Cantarell&#x27;</span>, <span class="hljs-string">&#x27;Fira Sans&#x27;</span>, <span class="hljs-string">&#x27;Droid Sans&#x27;</span>, <span class="hljs-string">&#x27;Helvetica Neue&#x27;</span>,<br>    sans-serif;<br>  -webkit-<span class="hljs-attribute">font-smoothing</span>: antialiased;<br>  -moz-osx-<span class="hljs-attribute">font-smoothing</span>: grayscale;<br>  <span class="hljs-attribute">font-family</span>: <span class="hljs-string">&#x27;poppins&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h1 id="引入字体Poppins"><a href="#引入字体Poppins" class="headerlink" title="引入字体Poppins"></a>引入字体Poppins</h1><p>在public中的<code>index.html</code>，以下网址we can get code like this<br><a href="https://fonts.google.com/specimen/Poppins">https://fonts.google.com/specimen/Poppins</a></p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;link <span class="hljs-attribute">rel</span>=<span class="hljs-string">&quot;preconnect&quot;</span> <span class="hljs-attribute">href</span>=<span class="hljs-string">&quot;https://fonts.googleapis.com&quot;</span>&gt;<br>&lt;link <span class="hljs-attribute">rel</span>=<span class="hljs-string">&quot;preconnect&quot;</span> <span class="hljs-attribute">href</span>=<span class="hljs-string">&quot;https://fonts.gstatic.com&quot;</span> crossorigin&gt;<br>&lt;link <span class="hljs-attribute">href</span>=<span class="hljs-string">&quot;https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap&quot;</span> <span class="hljs-attribute">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span>&gt;<br></code></pre></td></tr></table></figure><p>在<code>index.css</code>中把字体设置为Poppins</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">body</span> &#123;<br>  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;<br>  <span class="hljs-attribute">font-family</span>: -apple-system, BlinkMacSystemFont, <span class="hljs-string">&#x27;Segoe UI&#x27;</span>, <span class="hljs-string">&#x27;Roboto&#x27;</span>, <span class="hljs-string">&#x27;Oxygen&#x27;</span>,<br>    <span class="hljs-string">&#x27;Ubuntu&#x27;</span>, <span class="hljs-string">&#x27;Cantarell&#x27;</span>, <span class="hljs-string">&#x27;Fira Sans&#x27;</span>, <span class="hljs-string">&#x27;Droid Sans&#x27;</span>, <span class="hljs-string">&#x27;Helvetica Neue&#x27;</span>,<br>    sans-serif;<br>  -webkit-<span class="hljs-attribute">font-smoothing</span>: antialiased;<br>  -moz-osx-<span class="hljs-attribute">font-smoothing</span>: grayscale;<br>  <span class="hljs-attribute">font-family</span>: <span class="hljs-string">&#x27;poppins&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure><h1 id="使用变量调用颜色"><a href="#使用变量调用颜色" class="headerlink" title="使用变量调用颜色"></a>使用变量调用颜色</h1><ol><li>在 index.css 中定义变量（通常在 :root 中）<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-comment">/* index.css */</span><br><span class="hljs-selector-pseudo">:root</span> &#123;<br>  <span class="hljs-attr">--font-dark-color</span>: <span class="hljs-number">#333333</span>;<br>  <span class="hljs-attr">--font-light-color</span>: <span class="hljs-number">#999999</span>;<br>  <span class="hljs-attr">--primary-color</span>: <span class="hljs-number">#3498db</span>;<br>  <span class="hljs-attr">--secondary-color</span>: <span class="hljs-number">#2ecc71</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure></li><li>任何组件的 CSS 文件都可以直接使用这些全局变量。例如：<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs maxima"><span class="hljs-comment">/* ExampleComponent.css */</span><br>.header &#123;<br>  <span class="hljs-built_in">color</span>: <span class="hljs-built_in">var</span>(--<span class="hljs-built_in">font</span>-dark-<span class="hljs-built_in">color</span>);<br>  <span class="hljs-built_in">background</span>-<span class="hljs-built_in">color</span>: <span class="hljs-built_in">var</span>(--primary-<span class="hljs-built_in">color</span>);<br>&#125;<br><br>.subtext &#123;<br>  <span class="hljs-built_in">color</span>: <span class="hljs-built_in">var</span>(--<span class="hljs-built_in">font</span>-light-<span class="hljs-built_in">color</span>);<br>&#125;<br><br></code></pre></td></tr></table></figure></li></ol>]]></content>
     
     
     
