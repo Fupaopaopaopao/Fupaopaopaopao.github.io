@@ -4,6 +4,63 @@
   
   
   <entry>
+    <title>Rotate Array</title>
+    <link href="/2024/11/08/Rotate-Array/"/>
+    <url>/2024/11/08/Rotate-Array/</url>
+    
+    <content type="html"><![CDATA[<p>Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.</p><p>Example 1:  </p><p>Input: nums &#x3D; [1,2,3,4,5,6,7], k &#x3D; 3<br>Output: [5,6,7,1,2,3,4]<br>Explanation:<br>rotate 1 steps to the right: [7,1,2,3,4,5,6]<br>rotate 2 steps to the right: [6,7,1,2,3,4,5]<br>rotate 3 steps to the right: [5,6,7,1,2,3,4]  </p><p>Example 2:  </p><p>Input: nums &#x3D; [-1,-100,3,99], k &#x3D; 2<br>Output: [3,99,-1,-100]<br>Explanation:<br>rotate 1 steps to the right: [99,-1,-100,3]<br>rotate 2 steps to the right: [3,99,-1,-100]  </p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rotate</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], k: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-literal">None</span>:<br>        n = <span class="hljs-built_in">len</span>(nums)<br>        k %= n  <br>        nums.reverse()<br>        nums[:k] = <span class="hljs-built_in">reversed</span>(nums[:k])<br>        nums[k:] = <span class="hljs-built_in">reversed</span>(nums[k:])<br></code></pre></td></tr></table></figure><p>一个On时间复杂度O1空间的办法，其实还有那种很直接的，拆开再合起来，非常直接，非常大</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Majority Element</title>
+    <link href="/2024/11/08/Majority-Element/"/>
+    <url>/2024/11/08/Majority-Element/</url>
+    
+    <content type="html"><![CDATA[<p>Given an array nums of size n, return the majority element.</p><p>The majority element is the element that appears more than ⌊n &#x2F; 2⌋ times. You may assume that the majority element always exists in the array.</p><p>有天才，谁想出来的答案<br>就是说我计数一旦有数字比我这个多那肯定就是 cnt&#x3D;0</p><p>Boyer-Moore投票算法 非常好算法O(n)的时间复杂度</p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">majorityElement</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:<br>        candidate = <span class="hljs-literal">None</span>  <span class="hljs-comment"># 初始化候选多数元素</span><br>        count = <span class="hljs-number">0</span>  <span class="hljs-comment"># 初始化计数器</span><br><br>        <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums:<br>            <span class="hljs-keyword">if</span> count == <span class="hljs-number">0</span>:<br>                candidate = num  <span class="hljs-comment"># 重置候选多数元素</span><br>                count = <span class="hljs-number">1</span><br>            <span class="hljs-keyword">elif</span> num == candidate:<br>                count += <span class="hljs-number">1</span>  <span class="hljs-comment"># 相同元素，计数器加1</span><br>            <span class="hljs-keyword">else</span>:<br>                count -= <span class="hljs-number">1</span>  <span class="hljs-comment"># 不同元素，计数器减1</span><br>        <br>        <span class="hljs-keyword">return</span> candidate<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Remove Duplicates from Sorted Array II</title>
+    <link href="/2024/11/08/Remove-Duplicates-from-Sorted-Array-II/"/>
+    <url>/2024/11/08/Remove-Duplicates-from-Sorted-Array-II/</url>
+    
+    <content type="html"><![CDATA[<p>Given an integer array nums sorted in non-decreasing order, remove some duplicates in-place such that each unique element appears at most twice. The relative order of the elements should be kept the same.</p><p>Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.</p><p>Return k after placing the final result in the first k slots of nums.</p><p>Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.</p><p>其实和前面那道题非常相似，值得注意的是，我们不能把i-2和i比较而是需要使用cnt作为指针，因为当cnt位置被更换时如果下一位其实和这一位相同，但i-2也会等于这一位<br>所以我们必须要知道在数组被更改之前的排列状况，也就是cnt位置之前的那一位才是我们需要的</p><p>例如</p><p>[1,1,1,2,2,3]<br>当循环进行到index &#x3D; 3时，cnt add 1，index-1将被更新为2<br>index向下一位，如果我们使用nums[i-2] !&#x3D; nums[i] 作为比较标准 那么对于index&#x3D;4这个2来说就重复了<br><strong>cnt-1位置上是上一次可以被保留的数字，且这个位置之前的所有数字都是被保留的</strong><br>因此我们只要判断cnt-2和下一个数字是否相同即可，使用nums[cnt-2] !&#x3D; nums[i]</p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">removeDuplicates</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:<br>        <span class="hljs-comment"># 如果数组长度小于等于2，直接返回长度</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(nums) &lt;= <span class="hljs-number">2</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(nums)<br>        <br>        cnt = <span class="hljs-number">2</span>  <span class="hljs-comment"># 从索引2开始，因为前两个元素不用处理</span><br>        <br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>, <span class="hljs-built_in">len</span>(nums)):<br>            <span class="hljs-comment"># 只在当前元素和 `cnt - 2` 指向的元素不同时，才将其放在 `cnt` 位置</span><br>            <span class="hljs-keyword">if</span> nums[i] != nums[cnt - <span class="hljs-number">2</span>]:<br>                nums[cnt] = nums[i]<br>                cnt += <span class="hljs-number">1</span><br>        <br>        <span class="hljs-keyword">return</span> cnt<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Remove Duplicates from Sorted Array</title>
     <link href="/2024/11/07/Remove-Duplicates-from-Sorted-Array/"/>
     <url>/2024/11/07/Remove-Duplicates-from-Sorted-Array/</url>
