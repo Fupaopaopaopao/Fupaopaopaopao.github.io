@@ -16,22 +16,22 @@
   <meta name="author" content="Fuchsia">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Given an integer array nums, rotate the array to the right by k steps, where k is non-negative. Example 1:   Input: nums &#x3D; [1,2,3,4,5,6,7], k &#x3D; 3Output: [5,6,7,1,2,3,4]Explanation:rotate 1 s">
+    <meta name="description" content="You are given an integer array prices where prices[i] is the price of a given stock on the ith day. On each day, you may decide to buy and&#x2F;or sell the stock. You can only hold at most one share o">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Rotate Array">
-<meta property="og:url" content="http://example.com/2024/11/08/Rotate-Array/index.html">
+<meta property="og:title" content="Best Time to Buy and Sell Stock II">
+<meta property="og:url" content="http://example.com/2024/11/09/Best-Time-to-Buy-and-Sell-Stock-II/index.html">
 <meta property="og:site_name" content="Fuchsia&#39;s BoLg">
-<meta property="og:description" content="Given an integer array nums, rotate the array to the right by k steps, where k is non-negative. Example 1:   Input: nums &#x3D; [1,2,3,4,5,6,7], k &#x3D; 3Output: [5,6,7,1,2,3,4]Explanation:rotate 1 s">
+<meta property="og:description" content="You are given an integer array prices where prices[i] is the price of a given stock on the ith day. On each day, you may decide to buy and&#x2F;or sell the stock. You can only hold at most one share o">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-11-08T04:37:27.000Z">
-<meta property="article:modified_time" content="2024-11-08T04:42:24.512Z">
+<meta property="article:published_time" content="2024-11-09T02:07:48.000Z">
+<meta property="article:modified_time" content="2024-11-09T02:11:02.911Z">
 <meta property="article:author" content="Fuchsia">
 <meta property="article:tag" content="Algo">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Rotate Array - Fuchsia&#39;s BoLg</title>
+  <title>Best Time to Buy and Sell Stock II - Fuchsia&#39;s BoLg</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Rotate Array"></span>
+            <span id="subtitle" data-typed-text="Best Time to Buy and Sell Stock II"></span>
           
         </div>
 
@@ -208,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-08 15:37" pubdate>
-          November 8, 2024 pm
+        <time datetime="2024-11-09 13:07" pubdate>
+          November 9, 2024 pm
         </time>
       </span>
     
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          138 words
+          334 words
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          2 mins
+          3 mins
         
       </span>
     
@@ -268,19 +268,25 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Rotate Array</h1>
+            <h1 id="seo-header">Best Time to Buy and Sell Stock II</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.</p>
-<p>Example 1:  </p>
-<p>Input: nums &#x3D; [1,2,3,4,5,6,7], k &#x3D; 3<br>Output: [5,6,7,1,2,3,4]<br>Explanation:<br>rotate 1 steps to the right: [7,1,2,3,4,5,6]<br>rotate 2 steps to the right: [6,7,1,2,3,4,5]<br>rotate 3 steps to the right: [5,6,7,1,2,3,4]  </p>
-<p>Example 2:  </p>
-<p>Input: nums &#x3D; [-1,-100,3,99], k &#x3D; 2<br>Output: [3,99,-1,-100]<br>Explanation:<br>rotate 1 steps to the right: [99,-1,-100,3]<br>rotate 2 steps to the right: [3,99,-1,-100]  </p>
-<h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rotate</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], k: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-literal">None</span>:<br>        n = <span class="hljs-built_in">len</span>(nums)<br>        k %= n  <br>        nums.reverse()<br>        nums[:k] = <span class="hljs-built_in">reversed</span>(nums[:k])<br>        nums[k:] = <span class="hljs-built_in">reversed</span>(nums[k:])<br></code></pre></td></tr></table></figure>
-
-<p>一个On时间复杂度O1空间的办法，其实还有那种很直接的，拆开再合起来，非常直接，非常大</p>
+                <p>You are given an integer array prices where prices[i] is the price of a given stock on the ith day.</p>
+<p>On each day, you may decide to buy and&#x2F;or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.</p>
+<p>Find and return the maximum profit you can achieve.</p>
+<p>这是因为在这种交易规则下，我们的目标是<strong>累积所有的上涨差值</strong>，而每次上涨就代表了一个潜在的获利机会。只要当前价格比前一天高，我们就可以看作在前一天买入、当天卖出，获得该天和前一天之间的价格差，从而最大化利润。</p>
+<ul>
+<li><p>连续上涨的累积：如果连续几天价格在上涨，比如 1 -&gt; 3 -&gt; 5 -&gt; 6，则直接在 1 买入、6 卖出和每天都买卖效果是相同的。即 6 - 1 &#x3D; (3 - 1) + (5 - 3) + (6 - 5)，通过每次价格上涨时进行买卖，我们可以把上涨的部分都累加起来。</p>
+</li>
+<li><p>在本问题中没有限制买卖次数：因为没有买卖次数的限制，所以我们可以“贪心”地在每次上涨的时候获利，这样就可以累积所有的利润，而不用等到价格大幅上涨后再卖出。</p>
+</li>
+</ul>
+<blockquote>
+<p>Note：这个算法在股市中不能最大化收益，因为无法同天买卖且股市有交易次数的限制</p>
+</blockquote>
+<h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">maxProfit</span>(<span class="hljs-params">prices</span>):<br>    max_profit = <span class="hljs-number">0</span><br>    <br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(prices)):<br>        <span class="hljs-keyword">if</span> prices[i] &gt; prices[i - <span class="hljs-number">1</span>]:  <span class="hljs-comment"># 如果今天价格比昨天高</span><br>            max_profit += prices[i] - prices[i - <span class="hljs-number">1</span>]  <span class="hljs-comment"># 累加上涨的差值</span><br>            <br>    <span class="hljs-keyword">return</span> max_profit<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -305,8 +311,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Rotate Array</div>
-      <div>http://example.com/2024/11/08/Rotate-Array/</div>
+      <div>Best Time to Buy and Sell Stock II</div>
+      <div>http://example.com/2024/11/09/Best-Time-to-Buy-and-Sell-Stock-II/</div>
     </div>
     <div class="license-meta">
       
@@ -318,7 +324,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>November 8, 2024</div>
+          <div>November 9, 2024</div>
         </div>
       
       
@@ -350,9 +356,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/09/Best-Time-to-Buy-and-Sell-Stock/" title="Best Time to Buy and Sell Stock">
+                      <a href="/2024/11/09/Jump-Game/" title="Jump Game">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Best Time to Buy and Sell Stock</span>
+                        <span class="hidden-mobile">Jump Game</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -360,8 +366,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/08/Majority-Element/" title="Majority Element">
-                        <span class="hidden-mobile">Majority Element</span>
+                      <a href="/2024/11/09/Best-Time-to-Buy-and-Sell-Stock/" title="Best Time to Buy and Sell Stock">
+                        <span class="hidden-mobile">Best Time to Buy and Sell Stock</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
