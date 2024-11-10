@@ -4,6 +4,63 @@
   
   
   <entry>
+    <title>Roman to Integer</title>
+    <link href="/2024/11/10/Roman-to-Integer/"/>
+    <url>/2024/11/10/Roman-to-Integer/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>Hint: map and reversed 且注意<strong>4</strong></p></blockquote><p>Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.</p><p>Symbol       Value<br>I             1<br>V             5<br>X             10<br>L             50<br>C             100<br>D             500<br>M             1000</p><p>For example, 2 is written as II in Roman numeral, just two ones added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.</p><p>Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:</p><pre><code class="hljs">I can be placed before V (5) and X (10) to make 4 and 9. X can be placed before L (50) and C (100) to make 40 and 90. C can be placed before D (500) and M (1000) to make 400 and 900.</code></pre><p>Given a roman numeral, convert it to an integer.</p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">romanToInt</span>(<span class="hljs-params">self, s: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>        roman_to_int = &#123;<br>            <span class="hljs-string">&#x27;I&#x27;</span>: <span class="hljs-number">1</span>,<br>            <span class="hljs-string">&#x27;V&#x27;</span>: <span class="hljs-number">5</span>,<br>            <span class="hljs-string">&#x27;X&#x27;</span>: <span class="hljs-number">10</span>,<br>            <span class="hljs-string">&#x27;L&#x27;</span>: <span class="hljs-number">50</span>,<br>            <span class="hljs-string">&#x27;C&#x27;</span>: <span class="hljs-number">100</span>,<br>            <span class="hljs-string">&#x27;D&#x27;</span>: <span class="hljs-number">500</span>,<br>            <span class="hljs-string">&#x27;M&#x27;</span>: <span class="hljs-number">1000</span><br>        &#125;<br><br>        num = <span class="hljs-number">0</span><br>        last = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">reversed</span>(s):<br>            <span class="hljs-comment"># num += roman_to_int[i]</span><br>            <span class="hljs-keyword">if</span> roman_to_int[i] &lt; last:<br>                 num -= roman_to_int[i]<br>            <span class="hljs-keyword">else</span>:<br>                num += roman_to_int[i]<br>            last = roman_to_int[i]<br>        <span class="hljs-keyword">return</span> num<br><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>H-Index</title>
+    <link href="/2024/11/10/H-Index/"/>
+    <url>/2024/11/10/H-Index/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>Hint: An easy approach is to sort the array first.</p></blockquote><p>Given an array of integers citations where citations[i] is the number of citations a researcher received for their ith paper, return the researcher’s h-index.</p><p>According to the definition of h-index on Wikipedia: The h-index is defined as the maximum value of h such that the given researcher has published at least h papers that have each been cited at least h times.</p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">hIndex</span>(<span class="hljs-params">self, citations: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:<br>        citations.sort(reverse=<span class="hljs-literal">True</span>)<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(citations)):<br>            <span class="hljs-keyword">if</span> citations[i] &lt;= i:<br>                <span class="hljs-keyword">return</span> i<br>        <br><br>        <span class="hljs-keyword">if</span> citations[<span class="hljs-number">0</span>] != <span class="hljs-number">0</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(citations)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Jump Game II</title>
+    <link href="/2024/11/10/Jump-Game-II/"/>
+    <url>/2024/11/10/Jump-Game-II/</url>
+    
+    <content type="html"><![CDATA[<p><strong>在能达到的范围内寻找能跳的最远的位置</strong></p><p>这道题最主要的是判断的顺序，我需要添加一个current_end来记录范围内能达到的最远位置，只要到达范围结束的点那么我就可以直接跳到最远距离  </p><p>贪心算法的关键在于每一步都做出“当前最远”的选择，而不是回头检查之前的状态。我们在每次到达 current_end 时才跳跃，确保在跳跃范围内尽可能扩展最远的位置，从而以最少的跳跃次数覆盖数组。</p><p>You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0].</p><p>Each element nums[i] represents the maximum length of a forward jump from index i. In other words, if you are at nums[i], you can jump to any nums[i + j] where:</p><pre><code class="hljs">0 &lt;= j &lt;= nums[i] andi + j &lt; n</code></pre><p>Return the minimum number of jumps to reach nums[n - 1]. The test cases are generated such that you can reach nums[n - 1].</p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">jump</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:<br>        min_step = <span class="hljs-number">0</span><br>        max_pos = <span class="hljs-number">0</span><br>        current_end = <span class="hljs-number">0</span> <br><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(nums) == <span class="hljs-number">1</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(nums)-<span class="hljs-number">1</span>):<br>            max_pos = <span class="hljs-built_in">max</span>(max_pos,i+nums[i])<br>            <span class="hljs-keyword">if</span> i == current_end:<br>                min_step += <span class="hljs-number">1</span><br>                current_end = max_pos<br>                <span class="hljs-keyword">if</span> current_end &gt;= <span class="hljs-built_in">len</span>(nums) - <span class="hljs-number">1</span>:<br>                    <span class="hljs-keyword">return</span> min_step <br>           <br><br>        <span class="hljs-keyword">return</span> min_step<br>        <br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Jump Game</title>
     <link href="/2024/11/09/Jump-Game/"/>
     <url>/2024/11/09/Jump-Game/</url>
