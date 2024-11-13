@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Zigzag Conversion</title>
+    <link href="/2024/11/13/Zigzag-Conversion/"/>
+    <url>/2024/11/13/Zigzag-Conversion/</url>
+    
+    <content type="html"><![CDATA[<p>The string “PAYPALISHIRING” is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p><p>P&emsp;&emsp; A&emsp;&emsp; H&emsp;&emsp; N<br>A&emsp;P&emsp;L&emsp;S&emsp;I&emsp;I&emsp;G<br>Y&emsp;&emsp; I&emsp;&emsp; R  </p><p>And then read line by line: “PAHNAPLSIIGYIR”</p><p>Write the code that will take a string and make this conversion given a number of rows:</p><h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">convert</span>(<span class="hljs-params">self, s: <span class="hljs-built_in">str</span>, numRows: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>        <span class="hljs-keyword">if</span> numRows == <span class="hljs-number">1</span> <span class="hljs-keyword">or</span> numRows &gt;= <span class="hljs-built_in">len</span>(s):<br>            <span class="hljs-keyword">return</span> s<br><br>        rows = [<span class="hljs-string">&#x27;&#x27;</span>]*numRows<br>        current_row = <span class="hljs-number">0</span><br>        going_down =  <span class="hljs-literal">False</span><br><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> s:<br>            rows[current_row] += i<br>            <span class="hljs-comment"># print()</span><br>            <span class="hljs-keyword">if</span> current_row == <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> current_row == numRows -<span class="hljs-number">1</span>:<br>                going_down = <span class="hljs-keyword">not</span> going_down<br>            <span class="hljs-keyword">if</span> going_down:<br>                current_row += <span class="hljs-number">1</span><br>            <span class="hljs-keyword">else</span>:<br>                current_row -= <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>.join(rows)<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Algo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Longest Common Prefix</title>
     <link href="/2024/11/12/Longest-Common-Prefix/"/>
     <url>/2024/11/12/Longest-Common-Prefix/</url>
