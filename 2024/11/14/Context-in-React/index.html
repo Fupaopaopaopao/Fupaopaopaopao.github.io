@@ -16,22 +16,22 @@
   <meta name="author" content="Fuchsia">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1]">
+    <meta name="description" content="当我们为了避免多个组件传递props，我们需要用context保存全局的状态 123&lt;ThemeContext.Provider value&#x3D;&quot;dark&quot;&gt;  &lt;Toolbar &#x2F;&gt;&lt;&#x2F;ThemeContext.Provider&gt; 在Provider中的组件都可以贡献value，比如在本项目中，我们在root render中设置context">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Two Sum II - sorted">
-<meta property="og:url" content="http://example.com/2024/11/14/Two-Sum-II-sorted/index.html">
+<meta property="og:title" content="Context in React">
+<meta property="og:url" content="http://example.com/2024/11/14/Context-in-React/index.html">
 <meta property="og:site_name" content="Fuchsia&#39;s BoLg">
-<meta property="og:description" content="Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1]">
+<meta property="og:description" content="当我们为了避免多个组件传递props，我们需要用context保存全局的状态 123&lt;ThemeContext.Provider value&#x3D;&quot;dark&quot;&gt;  &lt;Toolbar &#x2F;&gt;&lt;&#x2F;ThemeContext.Provider&gt; 在Provider中的组件都可以贡献value，比如在本项目中，我们在root render中设置context">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-11-14T06:49:11.000Z">
-<meta property="article:modified_time" content="2024-11-14T06:49:52.954Z">
+<meta property="article:published_time" content="2024-11-14T08:45:36.000Z">
+<meta property="article:modified_time" content="2024-11-14T09:08:52.916Z">
 <meta property="article:author" content="Fuchsia">
-<meta property="article:tag" content="Algo">
+<meta property="article:tag" content="React">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Two Sum II - sorted - Fuchsia&#39;s BoLg</title>
+  <title>Context in React - Fuchsia&#39;s BoLg</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Two Sum II - sorted"></span>
+            <span id="subtitle" data-typed-text="Context in React"></span>
           
         </div>
 
@@ -208,7 +208,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-14 17:49" pubdate>
+        <time datetime="2024-11-14 19:45" pubdate>
           November 14, 2024 pm
         </time>
       </span>
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          64 words
+          512 words
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          1 mins
+          5 mins
         
       </span>
     
@@ -268,16 +268,29 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Two Sum II - sorted</h1>
+            <h1 id="seo-header">Context in React</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 &lt;&#x3D; index1 &lt; index2 &lt;&#x3D; numbers.length.</p>
-<p>Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.</p>
-<p>The tests are generated such that there is exactly one solution. You may not use the same element twice.</p>
-<p>Your solution must use only constant extra space.</p>
-<h1 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">twoSum</span>(<span class="hljs-params">self, numbers: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]:<br>        <span class="hljs-comment"># left = True</span><br><br>        i = <span class="hljs-number">0</span><br>        j = <span class="hljs-built_in">len</span>(numbers)-<span class="hljs-number">1</span><br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            <span class="hljs-keyword">if</span> numbers[i] + numbers[j] &lt; target:<br>                i += <span class="hljs-number">1</span><br>            <span class="hljs-keyword">elif</span> numbers[i] + numbers[j] &gt; target:<br>                j -= <span class="hljs-number">1</span><br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-keyword">return</span> [i+<span class="hljs-number">1</span>,j+<span class="hljs-number">1</span>]<br><br></code></pre></td></tr></table></figure>
+                <p>当我们为了避免多个组件传递props，我们需要用context保存全局的状态</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">ThemeContext.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;dark&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">Toolbar</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">ThemeContext.Provider</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>在Provider中的组件都可以贡献value，比如在本项目中，我们在root render中设置context provider</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-section">&lt;ShopContextProvider&gt;</span><br>  <span class="hljs-section">&lt;App /&gt;</span><br><span class="hljs-section">&lt;/ShopContextProvider&gt;</span><br></code></pre></td></tr></table></figure>
+<p>这样全局都可以共享context，并调用context中的function来调整State</p>
+<blockquote>
+<p>这和Vue中的Pinia状态管理非常像</p>
+</blockquote>
+<p>当然，这是我们自定义的组件，它实际返回的还是一个provider</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><br><span class="hljs-comment">// create Context</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">ShopContext</span> = <span class="hljs-title function_">createContext</span>(<span class="hljs-literal">null</span>);<br><br><span class="hljs-keyword">const</span> <span class="hljs-title function_">getDefaultCart</span> = (<span class="hljs-params"></span>) =&gt; &#123;<br>  <span class="hljs-keyword">let</span> cart = &#123;&#125;;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>; index &lt; all_product.<span class="hljs-property">length</span> + <span class="hljs-number">1</span>; index++) &#123;<br>    cart[index] = <span class="hljs-number">0</span>;<br>  &#125;<br>  <span class="hljs-keyword">return</span> cart;<br>&#125;<br><br><span class="hljs-keyword">const</span> <span class="hljs-title function_">ShopContextProvider</span> = (<span class="hljs-params">props</span>) =&gt; &#123;<br><br>  <span class="hljs-comment">// 相当于我们最重要的动态state</span><br>  <span class="hljs-keyword">const</span> [cartItems, setCartItems] = <span class="hljs-title function_">useState</span>(<span class="hljs-title function_">getDefaultCart</span>());<br><br>  <span class="hljs-comment">//更改state的函数</span><br>  <span class="hljs-keyword">const</span> <span class="hljs-title function_">addToCart</span> = (<span class="hljs-params">itemId</span>) =&gt; &#123;<br>    <span class="hljs-title function_">setCartItems</span>(<span class="hljs-function">(<span class="hljs-params">prev</span>) =&gt;</span> (&#123; ...prev, [itemId]: prev[itemId] + <span class="hljs-number">1</span> &#125;))<br>  &#125;<br>  <span class="hljs-keyword">const</span> <span class="hljs-title function_">removeFromCart</span> = (<span class="hljs-params">itemId</span>) =&gt; &#123;<br>    <span class="hljs-title function_">setCartItems</span>(<span class="hljs-function">(<span class="hljs-params">prev</span>) =&gt;</span> (&#123; ...prev, [itemId]: prev[itemId] - <span class="hljs-number">1</span> &#125;))<br>  &#125;<br><br>  <span class="hljs-comment">//export所有的state和函数</span><br>  <span class="hljs-keyword">const</span> contextValue = &#123; all_product, cartItems, addToCart, removeFromCart &#125;;<br><br><span class="hljs-comment">//注意返回的组件中需要&#123;props.children&#125;</span><br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ShopContext.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#123;contextValue&#125;</span>&gt;</span></span><br><span class="language-xml">      &#123;props.children&#125;</span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">ShopContext.Provider</span>&gt;</span></span><br>  )<br><br>&#125;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title class_">ShopContextProvider</span><br></code></pre></td></tr></table></figure>
+<h1 id="使用Context"><a href="#使用Context" class="headerlink" title="使用Context"></a>使用Context</h1><p>在能够获取倒context的组件中，我们可以通过useContext获取Context中export的所有变量和函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> &#123; all_product, cartItems, addToCart, removeFromCart &#125; = <span class="hljs-title function_">useContext</span>(<span class="hljs-title class_">ShopContext</span>)<br><br>  <span class="hljs-keyword">return</span> (<br>      &#123;all_product.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>        <span class="hljs-keyword">if</span> (cartItems[e.<span class="hljs-property">id</span>] &gt; <span class="hljs-number">0</span>) &#123;<br>          <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;cartitems-format&quot;</span>&gt;</span></span><br><span class="language-xml">              <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#123;e.image&#125;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#x27;cartitems-product-icon&#x27;</span> /&gt;</span></span><br><span class="language-xml">              <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;e.name&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">              <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>$&#123;e.new_price&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">              <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#x27;cartitems-quantity&#x27;</span>&gt;</span>&#123;cartItems[e.id]&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">              <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>$&#123;e.new_price * cartItems[e.id]&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">              <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#123;remove_icon&#125;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> &#123; removeFromCart(e.id) &#125;&#125; /&gt;</span><br><span class="language-xml">              <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> /&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        &#125;<br>      &#125;)&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="Param"><a href="#Param" class="headerlink" title="Param"></a>Param</h1><p>在其它情况我们习惯使用url来传递物品或者其它object的id，而不是使用context</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;<span class="hljs-title class_">Route</span> path=<span class="hljs-string">&#x27;/product&#x27;</span> element=&#123;<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Product</span> /&gt;</span></span>&#125; &gt;<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;:productId&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">&#123;</span>&lt;<span class="hljs-attr">Product</span> /&gt;</span>&#125; /&gt;</span><br>&lt;/<span class="hljs-title class_">Route</span>&gt;<br></code></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;<span class="hljs-title class_">Link</span> to=&#123;<span class="hljs-string">`/product/<span class="hljs-subst">$&#123;props.id&#125;</span>`</span>&#125;&gt;<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;window.scrollTo(0,</span> <span class="hljs-attr">0</span>)&#125; <span class="hljs-attr">src</span>=<span class="hljs-string">&#123;props.image&#125;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span></span><br>  &lt;/<span class="hljs-title class_">Link</span>&gt;<br></code></pre></td></tr></table></figure>
+<p>获取param</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> &#123; productId &#125; = <span class="hljs-title function_">useParams</span>(); <br><span class="hljs-keyword">const</span> product = all_product.<span class="hljs-title function_">find</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-property">id</span> === <span class="hljs-title class_">Number</span>(productId));<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -289,7 +302,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Algo/" class="print-no-link">#Algo</a>
+        <a href="/tags/React/" class="print-no-link">#React</a>
       
     </div>
   
@@ -301,8 +314,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Two Sum II - sorted</div>
-      <div>http://example.com/2024/11/14/Two-Sum-II-sorted/</div>
+      <div>Context in React</div>
+      <div>http://example.com/2024/11/14/Context-in-React/</div>
     </div>
     <div class="license-meta">
       
@@ -346,18 +359,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/14/Context-in-React/" title="Context in React">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Context in React</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/14/Is-Subsequence/" title="Is Subsequence">
-                        <span class="hidden-mobile">Is Subsequence</span>
+                      <a href="/2024/11/14/Two-Sum-II-sorted/" title="Two Sum II - sorted">
+                        <span class="hidden-mobile">Two Sum II - sorted</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
